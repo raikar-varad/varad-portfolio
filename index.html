@@ -175,8 +175,14 @@
       .footer-inner { flex-direction: column; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .cursor-ring, .cursor-dot { display: none; }
+      html, body, *, button, a {
+        cursor: auto !important;
+      }
+      
+      
+        .cursor-ring, .cursor-dot { display: none !important; }
     }
+    
   </style>
 </head>
 <body>
@@ -266,10 +272,10 @@
       <section class="section" id="skills" aria-labelledby="skills-title">
         <div class="section-heading" data-reveal><span class="section-index">03 / Toolkit</span><h2 id="skills-title">Tools &amp; coursework.</h2></div>
         <div class="skills-layout" data-reveal>
-          <div class="skill-row"><h3>Programming</h3><p>Python fundamentals: lists, tuples, stacks, queues, searching, and sorting. Some previous exposure to JavaScript.</p></div>
-          <div class="skill-row"><h3>Data tools</h3><p>Beginning to work with NumPy and pandas.</p></div>
-          <div class="skill-row"><h3>Web basics</h3><p>Previous hands-on exposure to HTML and CSS.</p></div>
-          <div class="skill-row"><h3>Tools &amp; study</h3><p>VS Code. Current coursework includes Python; OS, DSA, Computational Structures, and C++ in OOP are upcoming.</p></div>
+          <div class="skill-row"><h3>Languages</h3><p>Python (Data Structures, Algorithms, OOP), JavaScript, C++ (Foundations).</p></div>
+          <div class="skill-row"><h3>Data & ML</h3><p>NumPy, Pandas, Data Analysis & Manipulation basics.</p></div>
+          <div class="skill-row"><h3>Web Development</h3><p>HTML5, CSS3, Modern Responsive Design, DOM Manipulation.</p></div>
+          <div class="skill-row"><h3>Coursework &amp; Tools</h3><p>Core Topics: Data Structures & Algorithms, OS, Discrete Computational Structures.<br> Tools: Git, GitHub, VS Code</p></div>
         </div>
       </section>
 
