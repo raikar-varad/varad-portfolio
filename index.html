@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10120f">
+  <meta name="description" content="A first-year VIT Vellore student's portfolio: projects, skills, learning, and ways to connect.">
+  <title>Varad Raikar — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #10120f;
+      --panel: #171a16;
+      --line: #30362d;
+      --acid: #c4f36b;
+      --paper: #f1f2e9;
+      --muted: #a2a89b;
+      --mono: "DM Mono", monospace;
+      --sans: "Manrope", sans-serif;
+      --gutter: clamp(1.25rem, 6vw, 6rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+    body {
+      margin: 0;
+      color: var(--paper);
+      background-color: var(--ink);
+      background-image: radial-gradient(ellipse at 76% 8%, rgba(196,243,107,.09), transparent 32%), linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: auto, 52px 52px, 52px 52px;
+      background-position: center, center top, center top;
+      font-family: var(--sans);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { color: var(--ink); background: var(--acid); }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--acid); outline-offset: 5px; }
+    .progress { position: fixed; inset: 0 auto auto 0; z-index: 20; width: 0; height: 2px; background: var(--acid); }
+    .glow { position: fixed; z-index: -1; left: 0; top: 0; width: 34rem; aspect-ratio: 1; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(196,243,107,.065), transparent 67%); transform: translate(-50%, -50%); }
+    .cursor-ring, .cursor-dot { position: fixed; z-index: 30; top: 0; left: 0; pointer-events: none; opacity: 0; }
+    .cursor-ring { width: 34px; height: 34px; border: 1px solid var(--acid); border-radius: 50%; transform: translate(-50%, -50%); transition: width .2s ease, height .2s ease, border-color .2s ease, opacity .2s ease; }
+    .cursor-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--acid); transform: translate(-50%, -50%); }
+    .cursor-ring.active { width: 54px; height: 54px; border-color: var(--paper); }
+    @media (pointer: fine) { body, a { cursor: none; } }
+    @media (pointer: coarse) { .cursor-ring, .cursor-dot { display: none; } }
+    .shell { width: min(100% - var(--gutter) * 2, 1120px); margin-inline: auto; }
+    .mono, .eyebrow, .nav, .meta, .section-index, .tag { font-family: var(--mono); }
+    .eyebrow, .section-index, .meta { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+    .eyebrow { color: var(--acid); display: flex; align-items: center; gap: .65rem; }
+    .eyebrow::before { content: ""; width: 1.5rem; height: 1px; background: currentColor; }
+
+    .topbar { position: sticky; z-index: 10; top: 0; border-bottom: 1px solid rgba(255,255,255,.09); background: rgba(16,18,15,.86); backdrop-filter: blur(16px); }
+    .topbar-inner { min-height: 68px; display: flex; align-items: center; justify-content: flex-start; gap: 1rem; }
+    .wordmark { text-decoration: none; font-size: .9rem; font-weight: 800; letter-spacing: .01em; }
+    .wordmark span { color: var(--acid); }
+    .nav { display: flex; align-items: center; gap: clamp(.8rem, 2.7vw, 2rem); margin-left: clamp(1rem, 3vw, 2.5rem); font-size: .72rem; color: var(--muted); }
+    .nav a { text-decoration: none; transition: color .2s; }
+    .nav a:hover { color: var(--acid); }
+    .nav-social { display: flex; align-items: center; gap: .45rem; margin-left: auto; }
+    .nav-social a { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); border: 1px solid var(--line); transition: color .2s, border-color .2s, background-color .2s; }
+    .nav-social a:hover { color: var(--acid); border-color: var(--acid); background: rgba(196,243,107,.08); }
+    .nav-social svg { width: 16px; height: 16px; fill: currentColor; }
+    .nav-social .mail-icon { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+    .hero { position: relative; min-height: min(800px, calc(100svh - 68px)); display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(240px, .7fr); align-items: center; gap: 3rem; padding-block: clamp(5rem, 12vh, 9rem); }
+    .hero-canvas { position: absolute; z-index: 2; top: 0; left: 50%; display: block; width: 100vw; height: 100%; pointer-events: none; transform: translateX(-50%); }
+    .hero-copy { max-width: 760px; position: relative; z-index: 1; }
+    .hero h1 { margin: 1.25rem 0 1.2rem; font-size: clamp(4rem, 11vw, 9rem); line-height: .86; letter-spacing: 0; font-weight: 800; }
+    .hero h1 span { display: inline-block; color: var(--acid); }
+    .hero h1 .name-first { color: var(--paper); }
+    .name-letter { position: relative; display: inline-block; white-space: pre; opacity: 0; transform: translateY(.04em); transition: opacity .12s ease, transform .12s ease; }
+    .name-letter.shown { opacity: 1; transform: none; }
+    .name-letter.typing::after { content: ""; position: absolute; top: .12em; right: -.055em; width: .055em; height: .72em; background: var(--acid); animation: caret-pulse .9s ease-in-out infinite alternate; }
+    .name-caret { width: .055em; height: .72em; margin-left: .12em; vertical-align: -.02em; background: var(--acid); opacity: 0; }
+    .name-caret.visible { opacity: 1; animation: caret-pulse .9s ease-in-out infinite alternate; }
+    @keyframes caret-pulse { from { opacity: .2; } to { opacity: 1; } }
+    .hero-description { max-width: 570px; margin: 0; color: #c1c5bb; font-size: clamp(1rem, 1.55vw, 1.18rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+    .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: .7rem; padding: .72rem 1rem; border: 1px solid var(--line); text-decoration: none; font-weight: 700; font-size: .84rem; translate: var(--mag-x, 0) var(--mag-y, 0); transition: translate .2s ease, border-color .2s, background .2s; }
+    .button:hover { border-color: var(--acid); }
+    .button-primary { color: var(--ink); background: var(--acid); border-color: var(--acid); }
+    .button-primary:hover { background: #d3ff82; }
+    .hero-aside { align-self: end; padding: 1.3rem 0 0 1.4rem; border-left: 1px solid var(--line); }
+    .hero-aside p { margin: .45rem 0; color: var(--muted); font-size: .86rem; }
+    .hero-aside strong { color: var(--paper); font-weight: 600; }
+    .hero-index { display: block; margin-bottom: 1rem; color: var(--acid); font: .75rem var(--mono); }
+    .portrait-panel { width: min(100%, 390px); margin: 0; justify-self: end; }
+    .portrait-frame { position: relative; overflow: visible; aspect-ratio: 4 / 5; }
+    .portrait-dots { position: absolute; z-index: 2; inset: 0; pointer-events: none; }
+    .portrait-dots span { position: absolute; width: 4px; aspect-ratio: 1; border-radius: 50%; background: var(--acid); opacity: .58; box-shadow: 0 0 9px rgba(196,243,107,.55); animation: satellite-drift 2.6s ease-in-out infinite alternate; }
+    .portrait-dots span:nth-child(1) { left: -3%; top: 20%; animation-delay: -.4s; }
+    .portrait-dots span:nth-child(2) { left: -1%; top: 43%; animation-delay: -1.3s; }
+    .portrait-dots span:nth-child(3) { left: -4%; top: 68%; animation-delay: -.9s; }
+    .portrait-dots span:nth-child(4) { left: 7%; top: 8%; width: 3px; animation-delay: -1.8s; }
+    .portrait-dots span:nth-child(5) { right: -3%; top: 27%; animation-delay: -1.1s; }
+    .portrait-dots span:nth-child(6) { right: -4%; top: 52%; animation-delay: -.2s; }
+    .portrait-dots span:nth-child(7) { right: -2%; top: 76%; width: 3px; animation-delay: -1.6s; }
+    .portrait-dots span:nth-child(8) { right: 10%; top: 91%; animation-delay: -.7s; }
+    @keyframes satellite-drift { to { transform: translate(3px, -7px) scale(1.45); opacity: .95; } }
+    @media (prefers-reduced-motion: reduce) {
+      .name-caret { opacity: 1; animation: none; }
+      .portrait-dots span { animation: none; opacity: .75; }
+    }
+
+    .section { padding-block: clamp(4.5rem, 9vw, 8rem); border-top: 1px solid var(--line); }
+    .section-heading { display: grid; grid-template-columns: 110px 1fr; gap: 1rem; align-items: baseline; margin-bottom: 2.6rem; }
+    .section-index { color: var(--acid); }
+    .section-heading h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.08; letter-spacing: 0; }
+    .about-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 8vw, 8rem); }
+    .about-copy { max-width: 650px; color: #c1c5bb; font-size: 1.02rem; }
+    .about-copy p:first-child { color: var(--paper); font-size: clamp(1.2rem, 2vw, 1.55rem); line-height: 1.5; }
+    .about-copy p { margin: 0 0 1rem; }
+    .facts { margin: 0; border-top: 1px solid var(--line); }
+    .fact { display: grid; grid-template-columns: 110px 1fr; gap: 1rem; padding: .85rem 0; border-bottom: 1px solid var(--line); }
+    .fact dt { color: var(--muted); font: .72rem var(--mono); text-transform: uppercase; }
+    .fact dd { margin: 0; font-size: .9rem; }
+
+    .project-list { border-top: 1px solid var(--line); }
+    .project { --pointer-x: 50%; --pointer-y: 50%; display: grid; grid-template-columns: 74px minmax(0, 1fr) minmax(150px, .45fr); gap: 1.3rem; align-items: start; padding: 1.55rem 0; border-bottom: 1px solid var(--line); background: transparent; transition: padding .2s, border-color .2s, background-color .35s ease, background-image .35s ease, box-shadow .35s ease; }
+    .project:hover, .project:focus-within { padding-inline: .75rem; background-color: rgba(196,243,107,.075); background-image: radial-gradient(ellipse 480px 240px at var(--pointer-x) var(--pointer-y), rgba(196,243,107,.17), transparent 100%), linear-gradient(90deg, transparent 0%, rgba(196,243,107,.07) 8%, rgba(196,243,107,.07) 92%, transparent 100%); box-shadow: 0 0 34px rgba(196,243,107,.09); }
+    .project-number { color: var(--acid); font: .75rem var(--mono); padding-top: .38rem; }
+    .project h3 { margin: 0 0 .45rem; font-size: clamp(1.2rem, 2.3vw, 1.65rem); letter-spacing: 0; }
+    .project p { max-width: 600px; margin: 0; color: var(--muted); font-size: .9rem; }
+    .project-status { justify-self: end; color: var(--muted); font: .68rem var(--mono); text-align: right; text-transform: uppercase; }
+    .project-status::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 .5rem .1rem 0; border-radius: 50%; background: var(--acid); }
+    .tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .9rem; }
+    .tag { padding: .2rem .48rem; border: 1px solid var(--line); color: #c6cbbf; font-size: .66rem; }
+    .project-edit-note { margin: 1rem 0 0; color: var(--muted); font: .7rem var(--mono); }
+
+    .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem; border-top: 1px solid var(--line); }
+    .skill-row { display: grid; grid-template-columns: minmax(115px, .5fr) 1fr; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid var(--line); }
+    .skill-row h3 { margin: .1rem 0 0; font-size: .85rem; }
+    .skill-row p { margin: 0; color: var(--muted); font-size: .84rem; }
+
+    .contact { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
+    .contact h2 { max-width: 650px; margin: .8rem 0 1rem; font-size: clamp(2.8rem, 7vw, 6rem); line-height: .98; letter-spacing: 0; }
+    .contact h2 span { color: var(--acid); }
+    .contact p { max-width: 500px; color: var(--muted); }
+    .contact-links { display: flex; flex-direction: column; align-items: flex-start; gap: .8rem; }
+    .contact-links a { text-decoration-color: var(--acid); text-underline-offset: 4px; }
+    footer { padding-block: 1.5rem 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .73rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 1rem; }
+
+    [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+    [data-reveal].visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .glow { display: none; }
+    }
+    @media (max-width: 720px) {
+      .glow { display: none; }
+      .topbar-inner { gap: .75rem; }
+      .nav { gap: .8rem; margin-left: .25rem; font-size: .66rem; }
+      .nav a:nth-child(2), .nav a:nth-child(3) { display: none; }
+      .hero { min-height: auto; grid-template-columns: 1fr; gap: 3rem; padding-block: 6rem 4rem; }
+      .portrait-panel { justify-self: start; width: min(100%, 390px); }
+      .section-heading { grid-template-columns: 55px 1fr; }
+      .about-grid, .contact { grid-template-columns: 1fr; }
+      .project { grid-template-columns: 40px 1fr; gap: .6rem; }
+      .project-status { grid-column: 2; justify-self: start; text-align: left; }
+      .skills-layout { grid-template-columns: 1fr; }
+      .contact-links { margin-top: .5rem; }
+    }
+    @media (max-width: 420px) {
+      .wordmark { font-size: .78rem; }
+      .nav { gap: .6rem; margin-left: .15rem; }
+      .hero h1 { font-size: clamp(3.3rem, 18vw, 5rem); }
+      .fact { grid-template-columns: 90px 1fr; }
+      .footer-inner { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor-ring, .cursor-dot { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="glow" id="glow" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="wordmark" href="#top" aria-label="Back to top">VARAD RAIKAR</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-social" aria-label="Social and email links">
+        <a href="https://github.com/raikar-varad" target="_blank" rel="noreferrer" aria-label="GitHub profile" title="GitHub profile">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.08c-3.1.67-3.76-1.32-3.76-1.32-.5-1.29-1.23-1.63-1.23-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15.99 1.7 2.6 1.21 3.23.93.1-.72.39-1.21.71-1.49-2.48-.28-5.09-1.24-5.09-5.53 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.96 0 0 .94-.3 3.06 1.15a10.6 10.6 0 0 1 5.57 0c2.13-1.45 3.06-1.15 3.06-1.15.61 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3.01 0 4.3-2.62 5.24-5.11 5.52.4.35.76 1.03.76 2.08V22c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z"/></svg>
+        </a>
+        <a href="mailto:varadgraikar@gmail.com" aria-label="Email Varad" title="Email Varad">
+          <svg class="mail-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m4 7 8 6 8-6"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <canvas class="hero-canvas" id="portrait-canvas" aria-hidden="true"></canvas>
+        <div class="hero-copy">
+          <div class="eyebrow">VIT Vellore · CSE Core · Class of 2030</div>
+          <h1 id="hero-title"><span class="name-first">Hi, I'm</span><br><span class="name-last">Varad</span><span class="name-caret" aria-hidden="true"></span></h1>
+          <p class="hero-description">First-year Computer Science student at VIT Vellore, building a foundation in software development and exploring interactive systems, data, and machine learning.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projects">Explore my work <span aria-hidden="true">↘</span></a>
+            <a class="button" href="#contact">Say hello <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <figure class="portrait-panel" aria-label="Interactive particle portrait">
+          <div class="portrait-frame">
+            <div class="portrait-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+        </figure>
+      </section>
+
+      <section class="section" id="about" aria-labelledby="about-title">
+        <div class="section-heading" data-reveal><span class="section-index">01 / About</span><h2 id="about-title">About.</h2></div>
+        <div class="about-grid" data-reveal>
+          <div class="about-copy">
+            <p>First-year CSE student focused on turning rough ideas into software prototypes. I define the feature set, shape the interface, and test AI-assisted builds.</p>
+            <p>Currently developing my foundations in Python, algorithms, and web technology, with an interest in understanding how each part works under the hood.</p>
+          </div>
+          <dl class="facts">
+            <div class="fact"><dt>Education</dt><dd>Vellore Institute of Technology</dd></div>
+            <div class="fact"><dt>Programme</dt><dd>B.Tech Computer Science and Engineering (Core)</dd></div>
+            <div class="fact"><dt>Year</dt><dd>First year · Class of 2030</dd></div>
+            <div class="fact"><dt>Based in</dt><dd>Vellore, Tamil Nadu, India</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="section" id="projects" aria-labelledby="projects-title">
+        <div class="section-heading" data-reveal><span class="section-index">02 / Projects</span><h2 id="projects-title">Things I’ve been making.</h2></div>
+        <div class="project-list">
+          <article class="project" data-reveal>
+            <span class="project-number">01</span>
+            <div><h3>Expense Tracker</h3><p>A personal finance dashboard for logging expenses, reviewing monthly spending, browsing transactions, tracking budgets, and exporting records. I shaped the visual direction and feature requirements, then tested the prototype.</p><div class="tags"><span class="tag">Personal finance</span><span class="tag">Product direction</span><span class="tag">Prototype testing</span></div></div>
+            <span class="project-status">Prototype · private</span>
+          </article>
+          <article class="project" data-reveal>
+            <span class="project-number">02</span>
+            <div><h3>F1 Telemetry Map · Experiment</h3><p>An ambitious prototype exploring a map, time-series data, and moving live telemetry markers. I tested iterations and explored the idea with AI; the prototype became too complex to reliably build and understand, so it remains an unfinished experiment.</p><div class="tags"><span class="tag">Motorsport data</span><span class="tag">Rapid prototyping</span><span class="tag">Unfinished</span></div></div>
+            <span class="project-status">Exploration · paused</span>
+          </article>
+          <article class="project" data-reveal>
+            <span class="project-number">03</span>
+            <div><h3>Engine Fault Prediction · Team Project</h3><p>Planned multidisciplinary project exploring whether a quantum neural network can help identify or predict engine faults using EngineFaultDB. The project has not started and my role is still being decided; I may work on the model or its training with guidance from our professor.</p><div class="tags"><span class="tag">Team research</span><span class="tag">Quantum ML · planned</span><span class="tag">EngineFaultDB</span></div></div>
+            <span class="project-status">Planned · not started</span>
+          </article>
+        </div>
+        <p class="project-edit-note">AI-generated implementations are identified as such. Team-project scope and role are preliminary.</p>
+      </section>
+
+      <section class="section" id="skills" aria-labelledby="skills-title">
+        <div class="section-heading" data-reveal><span class="section-index">03 / Toolkit</span><h2 id="skills-title">Tools &amp; coursework.</h2></div>
+        <div class="skills-layout" data-reveal>
+          <div class="skill-row"><h3>Programming</h3><p>Python fundamentals: lists, tuples, stacks, queues, searching, and sorting. Some previous exposure to JavaScript.</p></div>
+          <div class="skill-row"><h3>Data tools</h3><p>Beginning to work with NumPy and pandas.</p></div>
+          <div class="skill-row"><h3>Web basics</h3><p>Previous hands-on exposure to HTML and CSS.</p></div>
+          <div class="skill-row"><h3>Tools &amp; study</h3><p>VS Code. Current coursework includes Python; OS, DSA, Computational Structures, and C++ in OOP are upcoming.</p></div>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact" aria-labelledby="contact-title">
+        <div data-reveal>
+          <div class="eyebrow">04 / Contact</div>
+          <h2 id="contact-title">Get in <span>touch.</span></h2>
+          <p>Email or GitHub.</p>
+        </div>
+        <div class="contact-links" data-reveal>
+          <a href="mailto:varadgraikar@gmail.com">varadgraikar@gmail.com ↗</a>
+          <a href="https://github.com/raikar-varad" target="_blank" rel="noreferrer">GitHub profile ↗</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner"><span>© 2026 · Varad Raikar · VIT Vellore</span></div>
+  </footer>
+
+  <script>
+    const progress = document.getElementById('progress');
+    const glow = document.getElementById('glow');
+    const cursorRing = document.getElementById('cursor-ring');
+    const cursorDot = document.getElementById('cursor-dot');
+    const finePointer = window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)');
+
+    const portraitCanvas = document.getElementById('portrait-canvas');
+    const portraitContext = portraitCanvas.getContext('2d');
+    const portraitFrame = document.querySelector('.portrait-frame');
+    const portraitImageSource = 'Gemini_Generated_Image_t4bvo7t4bvo7t4bv-removebg-previewz11111.png';
+    const portraitState = { particles: [], pointerX: -1000, pointerY: -1000, pointerVX: 0, pointerVY: 0, previousPointerX: -1000, previousPointerY: -1000, previousPointerTime: 0, image: null, width: 0, height: 0, frame: 0, assemblyStartedAt: 0, reducedMotion: false };
+    let nameTypingFinished = false;
+    const drawPortraitSource = (image) => {
+      const source = document.createElement('canvas');
+      const context = source.getContext('2d', { willReadFrequently: true });
+      source.width = 160;
+      source.height = 200;
+      const cropWidth = image.naturalWidth * .86;
+      const cropHeight = cropWidth * source.height / source.width;
+      const cropX = (image.naturalWidth - cropWidth) / 2;
+      context.drawImage(image, cropX, 0, cropWidth, cropHeight, 0, 0, source.width, source.height);
+
+      return context.getImageData(0, 0, source.width, source.height);
+    };
+
+    const renderPortrait = () => {
+      const { particles, width, height, pointerX, pointerY } = portraitState;
+      const now = performance.now();
+      portraitContext.clearRect(0, 0, width, height);
+      for (const particle of particles) {
+        let targetX = particle.baseX;
+        let targetY = particle.baseY;
+        const progress = portraitState.reducedMotion
+          ? 1
+          : portraitState.assemblyStartedAt
+            ? Math.max(0, Math.min(1, (now - portraitState.assemblyStartedAt - particle.delay) / particle.duration))
+            : 0;
+
+        if (progress < 1) {
+          if (progress < .24) {
+            const burstProgress = progress / .24;
+            const eased = 1 - Math.pow(1 - burstProgress, 3);
+            targetX = particle.startX + (particle.burstX - particle.startX) * eased;
+            targetY = particle.startY + (particle.burstY - particle.startY) * eased;
+          } else {
+            const settleProgress = (progress - .24) / .76;
+            const eased = settleProgress * settleProgress * (3 - 2 * settleProgress);
+            targetX = particle.burstX + (particle.baseX - particle.burstX) * eased;
+            targetY = particle.burstY + (particle.baseY - particle.burstY) * eased
+              + Math.sin(settleProgress * Math.PI) * particle.settle;
+          }
+        } else {
+          const dx = particle.x - pointerX;
+          const dy = particle.y - pointerY;
+          const distance = Math.hypot(dx, dy);
+          if (distance > 0) {
+            const force = Math.exp(-Math.pow(distance / 92, 2));
+            const directionX = dx / distance;
+            const directionY = dy / distance;
+            particle.vx += directionX * force * 1.15 - directionY * force * .3 + portraitState.pointerVX * force * .025;
+            particle.vy += directionY * force * 1.15 + directionX * force * .3 + portraitState.pointerVY * force * .025;
+          }
+          particle.vx += (particle.baseX - particle.x) * .02;
+          particle.vy += (particle.baseY - particle.y) * .02;
+          particle.vx *= .89;
+          particle.vy *= .89;
+          const speed = Math.hypot(particle.vx, particle.vy);
+          if (speed > 13) {
+            particle.vx = particle.vx / speed * 13;
+            particle.vy = particle.vy / speed * 13;
+          }
+          targetX = particle.x + particle.vx;
+          targetY = particle.y + particle.vy;
+        }
+
+        if (progress < 1) {
+          particle.x += (targetX - particle.x) * .2;
+          particle.y += (targetY - particle.y) * .2;
+        } else {
+          particle.x = targetX;
+          particle.y = targetY;
+        }
+        const assemblyOpacity = portraitState.assemblyStartedAt ? Math.min(1, progress * 12) : 0;
+        portraitContext.globalAlpha = particle.alpha * assemblyOpacity;
+        portraitContext.fillStyle = particle.color;
+        portraitContext.fillRect(particle.x, particle.y, particle.size, particle.size);
+      }
+      portraitContext.globalAlpha = 1;
+      portraitState.frame = requestAnimationFrame(renderPortrait);
+    };
+
+    const beginPortraitAssembly = () => {
+      if (!portraitState.particles.length || portraitState.assemblyStartedAt || portraitState.reducedMotion) return;
+      const caretBounds = document.querySelector('.name-caret').getBoundingClientRect();
+      const canvasBounds = portraitCanvas.getBoundingClientRect();
+      const originX = caretBounds.left + caretBounds.width / 2 - canvasBounds.left;
+      const originY = caretBounds.top + caretBounds.height / 2 - canvasBounds.top;
+      const burstRadius = Math.hypot(portraitState.width, portraitState.height) * .52;
+
+      portraitState.particles.forEach((particle) => {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 35 + Math.random() * burstRadius;
+        particle.startX = originX;
+        particle.startY = originY;
+        particle.burstX = Math.max(0, Math.min(portraitState.width, originX + Math.cos(angle) * radius));
+        particle.burstY = Math.max(0, Math.min(portraitState.height, originY + Math.sin(angle) * radius));
+        particle.x = originX;
+        particle.y = originY;
+      });
+
+      portraitState.assemblyStartedAt = performance.now();
+    };
+
+    const loadPortrait = () => {
+      const image = new Image();
+      image.onload = () => {
+        const pixels = drawPortraitSource(image);
+        portraitState.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        portraitCanvas.style.width = `${document.documentElement.clientWidth}px`;
+        const canvasBounds = portraitCanvas.getBoundingClientRect();
+        const frameBounds = portraitFrame.getBoundingClientRect();
+        const canvasWidth = portraitCanvas.clientWidth;
+        const canvasHeight = portraitCanvas.clientHeight;
+        const scale = Math.min(frameBounds.width / 160, frameBounds.height / 200);
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        portraitCanvas.width = Math.round(canvasWidth * dpr);
+        portraitCanvas.height = Math.round(canvasHeight * dpr);
+        portraitState.width = canvasWidth;
+        portraitState.height = canvasHeight;
+        portraitContext.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const displayWidth = 160 * scale;
+        const displayHeight = 200 * scale;
+        const offsetX = frameBounds.left - canvasBounds.left + (frameBounds.width - displayWidth) / 2;
+        const offsetY = frameBounds.top - canvasBounds.top + (frameBounds.height - displayHeight) / 2;
+        const particles = [];
+
+        for (let y = 1; y < 200; y += 2) {
+          for (let x = 1; x < 160; x += 2) {
+            const pixel = (y * 160 + x) * 4;
+            const red = pixels.data[pixel];
+            const green = pixels.data[pixel + 1];
+            const blue = pixels.data[pixel + 2];
+            const sourceAlpha = pixels.data[pixel + 3] / 255;
+            if (sourceAlpha < .1) continue;
+            const brightness = (red * .299 + green * .587 + blue * .114) * sourceAlpha;
+            const baseX = offsetX + x * scale;
+            const baseY = offsetY + y * scale;
+            particles.push({
+              baseX,
+              baseY,
+              startX: baseX,
+              startY: baseY,
+              burstX: baseX,
+              burstY: baseY,
+              x: baseX,
+              y: baseY,
+              vx: 0,
+              vy: 0,
+              delay: Math.random() * 180,
+              duration: 1250 + Math.random() * 600,
+              settle: 4 + Math.random() * 14,
+              size: scale * (1.1 + brightness / 400),
+              alpha: Math.pow(brightness / 255, 1.35),
+              color: '#c4f36b'
+            });
+          }
+        }
+
+        portraitState.particles = particles;
+        portraitState.pointerX = -1000;
+        portraitState.pointerY = -1000;
+        portraitState.assemblyStartedAt = portraitState.reducedMotion ? performance.now() : 0;
+        if (nameTypingFinished) beginPortraitAssembly();
+      };
+      image.src = portraitImageSource;
+    };
+
+    loadPortrait();
+    renderPortrait();
+    let portraitResizeTimer;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(portraitResizeTimer);
+      portraitResizeTimer = window.setTimeout(loadPortrait, 120);
+    }, { passive: true });
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const heading = document.getElementById('hero-title');
+      const nameLines = [heading.querySelector('.name-first'), heading.querySelector('.name-last')];
+      heading.setAttribute('aria-label', "Hi, I'm Varad");
+
+      const pause = (duration) => new Promise((resolve) => window.setTimeout(resolve, duration));
+      const lettersByLine = nameLines.map((line) => {
+        const letters = Array.from(line.textContent.trim(), (character) => {
+          const letter = document.createElement('span');
+          letter.className = 'name-letter';
+          letter.textContent = character;
+          return letter;
+        });
+        line.setAttribute('aria-hidden', 'true');
+        line.replaceChildren(...letters);
+        return letters;
+      });
+
+      const typeName = async () => {
+        await pause(180);
+        for (const letter of lettersByLine.flat()) {
+          letter.classList.add('shown', 'typing');
+          await pause(95);
+          letter.classList.remove('typing');
+        }
+        document.querySelector('.name-caret').classList.add('visible');
+        nameTypingFinished = true;
+        beginPortraitAssembly();
+      };
+
+      typeName();
+    }
+    window.addEventListener('scroll', () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = `${scrollable > 0 ? window.scrollY / scrollable * 100 : 0}%`;
+    }, { passive: true });
+
+    window.addEventListener('pointermove', (event) => {
+      glow.style.left = `${event.clientX}px`;
+      glow.style.top = `${event.clientY}px`;
+      const canvasBounds = portraitCanvas.getBoundingClientRect();
+      if (event.clientX >= canvasBounds.left && event.clientX <= canvasBounds.right
+        && event.clientY >= canvasBounds.top && event.clientY <= canvasBounds.bottom) {
+        const pointerX = event.clientX - canvasBounds.left;
+        const pointerY = event.clientY - canvasBounds.top;
+        const elapsed = Math.max(8, event.timeStamp - portraitState.previousPointerTime);
+        if (portraitState.previousPointerX >= 0) {
+          const sampleVX = (pointerX - portraitState.previousPointerX) * 16 / elapsed;
+          const sampleVY = (pointerY - portraitState.previousPointerY) * 16 / elapsed;
+          portraitState.pointerVX = portraitState.pointerVX * .55 + Math.max(-28, Math.min(28, sampleVX)) * .45;
+          portraitState.pointerVY = portraitState.pointerVY * .55 + Math.max(-28, Math.min(28, sampleVY)) * .45;
+        }
+        portraitState.pointerX = pointerX;
+        portraitState.pointerY = pointerY;
+        portraitState.previousPointerX = pointerX;
+        portraitState.previousPointerY = pointerY;
+        portraitState.previousPointerTime = event.timeStamp;
+      } else {
+        portraitState.pointerX = -1000;
+        portraitState.pointerY = -1000;
+        portraitState.pointerVX = 0;
+        portraitState.pointerVY = 0;
+        portraitState.previousPointerX = -1000;
+        portraitState.previousPointerY = -1000;
+        portraitState.previousPointerTime = event.timeStamp;
+      }
+      if (finePointer.matches) {
+        const pointerIsVisible = event.clientX >= 0 && event.clientX <= window.innerWidth && event.clientY >= 0 && event.clientY <= window.innerHeight;
+        for (const cursor of [cursorRing, cursorDot]) {
+          cursor.style.left = `${event.clientX}px`;
+          cursor.style.top = `${event.clientY}px`;
+          cursor.style.opacity = pointerIsVisible ? '1' : '0';
+        }
+      }
+    }, { passive: true });
+
+    document.addEventListener('pointerover', (event) => {
+      if (event.target.closest('a, .project')) cursorRing.classList.add('active');
+    });
+
+    document.addEventListener('pointerout', (event) => {
+      if (event.target.closest('a, .project')) cursorRing.classList.remove('active');
+    });
+
+    if (window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+      document.querySelectorAll('.button').forEach((button) => {
+        button.addEventListener('pointermove', (event) => {
+          const bounds = button.getBoundingClientRect();
+          const x = Math.max(-6, Math.min(6, (event.clientX - bounds.left - bounds.width / 2) * 0.08));
+          const y = Math.max(-6, Math.min(6, (event.clientY - bounds.top - bounds.height / 2) * 0.08));
+          button.style.setProperty('--mag-x', `${x}px`);
+          button.style.setProperty('--mag-y', `${y}px`);
+        });
+        button.addEventListener('pointerleave', () => {
+          button.style.setProperty('--mag-x', '0px');
+          button.style.setProperty('--mag-y', '0px');
+        });
+      });
+
+      document.querySelectorAll('.project').forEach((project) => {
+        project.addEventListener('pointermove', (event) => {
+          const bounds = project.getBoundingClientRect();
+          project.style.setProperty('--pointer-x', `${event.clientX - bounds.left}px`);
+          project.style.setProperty('--pointer-y', `${event.clientY - bounds.top}px`);
+        });
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('[data-reveal]').forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
