@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="teal">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#10120f">
+  <meta id="theme-color" name="theme-color" content="#09131f">
   <meta name="description" content="A first-year VIT Vellore student's portfolio: projects, skills, learning, and ways to connect.">
   <title>Varad Raikar — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,12 +12,34 @@
   <style>
     :root {
       color-scheme: dark;
-      --ink: #10120f;
-      --panel: #171a16;
-      --line: #30362d;
-      --acid: #c4f36b;
-      --paper: #f1f2e9;
-      --muted: #a2a89b;
+      --ink: #09131f;
+      --panel: #0d232c;
+      --line: #294651;
+      --acid: #72d3a4;
+      --sea: #3aafbb;
+      --mint: #69d39a;
+      --accent-gradient: linear-gradient(115deg, var(--sea), var(--mint));
+      --paper: #f1f6f3;
+      --muted: #a3b7ba;
+      --body: #d0dfdf;
+      --page-wash: linear-gradient(145deg, rgba(54,73,99,.5) 0%, rgba(22,94,113,.4) 52%, rgba(39,125,83,.38) 100%);
+      --page-glow: radial-gradient(ellipse at 76% 8%, rgba(77,177,158,.24), transparent 38%);
+      --grid-line: rgba(255,255,255,.025);
+      --nav-surface: rgba(11,23,35,.88);
+      --nav-border: rgba(255,255,255,.1);
+      --project-fill: linear-gradient(118deg, rgba(48,65,89,.78), rgba(21,85,100,.68) 56%, rgba(29,99,69,.68));
+      --project-spotlight: rgba(56,176,167,.2);
+      --skill-fill: linear-gradient(140deg, rgba(46,66,89,.76), rgba(21,81,94,.66) 58%, rgba(29,95,68,.64));
+      --skill-spotlight: rgba(61,179,168,.21);
+      --card-border: rgba(196,238,229,.16);
+      --card-border-hover: rgba(114,211,164,.5);
+      --aurora-a: rgba(35,139,126,.48);
+      --aurora-a-soft: rgba(48,91,137,.25);
+      --aurora-b: rgba(43,123,159,.4);
+      --aurora-b-soft: rgba(49,157,101,.3);
+      --aurora-opacity: .52;
+      --accent-soft: rgba(58,175,187,.16);
+      --button-text: #0b1723;
       --mono: "DM Mono", monospace;
       --sans: "Manrope", sans-serif;
       --gutter: clamp(1.25rem, 6vw, 6rem);
@@ -29,9 +51,9 @@
       margin: 0;
       color: var(--paper);
       background-color: var(--ink);
-      background-image: radial-gradient(ellipse at 76% 8%, rgba(196,243,107,.09), transparent 32%), linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-      background-size: auto, 52px 52px, 52px 52px;
-      background-position: center, center top, center top;
+      background-image: var(--page-wash), var(--page-glow), linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: auto, auto, 52px 52px, 52px 52px;
+      background-position: center, center, center top, center top;
       font-family: var(--sans);
       line-height: 1.65;
       overflow-x: hidden;
@@ -41,12 +63,12 @@
     a { color: inherit; }
     a:focus-visible, button:focus-visible { outline: 2px solid var(--acid); outline-offset: 5px; }
     .progress { position: fixed; inset: 0 auto auto 0; z-index: 20; width: 0; height: 2px; background: var(--acid); }
-    .glow { position: fixed; z-index: -1; left: 0; top: 0; width: 34rem; aspect-ratio: 1; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(196,243,107,.065), transparent 67%); transform: translate(-50%, -50%); }
+    .glow { position: fixed; z-index: -1; left: 0; top: 0; width: 34rem; aspect-ratio: 1; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(80,210,190,.2), transparent 67%); transform: translate(-50%, -50%); }
     .cursor-ring, .cursor-dot { position: fixed; z-index: 30; top: 0; left: 0; pointer-events: none; opacity: 0; }
-    .cursor-ring { width: 34px; height: 34px; border: 1px solid var(--acid); border-radius: 50%; transform: translate(-50%, -50%); transition: width .2s ease, height .2s ease, border-color .2s ease, opacity .2s ease; }
+    .cursor-ring { width: 34px; height: 34px; border: 1px solid var(--acid); border-radius: 50%; transform: translate(-50%, -50%); transition: width .2s ease, height .2s ease, border-color .2s ease, opacity .2s ease; will-change: left, top, transform; }
     .cursor-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--acid); transform: translate(-50%, -50%); }
     .cursor-ring.active { width: 54px; height: 54px; border-color: var(--paper); }
-    @media (pointer: fine) { body, a { cursor: none; } }
+    @media (pointer: fine) { body, a, button { cursor: none; } }
     @media (pointer: coarse) { .cursor-ring, .cursor-dot { display: none; } }
     .shell { width: min(100% - var(--gutter) * 2, 1120px); margin-inline: auto; }
     .mono, .eyebrow, .nav, .meta, .section-index, .tag { font-family: var(--mono); }
@@ -54,57 +76,50 @@
     .eyebrow { color: var(--acid); display: flex; align-items: center; gap: .65rem; }
     .eyebrow::before { content: ""; width: 1.5rem; height: 1px; background: currentColor; }
 
-    .topbar { position: sticky; z-index: 10; top: 0; border-bottom: 1px solid rgba(255,255,255,.09); background: rgba(16,18,15,.86); backdrop-filter: blur(16px); }
+    .topbar { position: sticky; z-index: 10; top: 0; border-bottom: 1px solid var(--nav-border); background: var(--nav-surface); backdrop-filter: blur(16px); }
     .topbar-inner { min-height: 68px; display: flex; align-items: center; justify-content: flex-start; gap: 1rem; }
     .wordmark { text-decoration: none; font-size: .9rem; font-weight: 800; letter-spacing: .01em; }
     .wordmark span { color: var(--acid); }
-    .nav { display: flex; align-items: center; gap: clamp(.8rem, 2.7vw, 2rem); margin-left: clamp(1rem, 3vw, 2.5rem); font-size: .72rem; color: var(--muted); }
+    .nav { --nav-line-left: 0px; --nav-line-width: 0px; position: relative; display: flex; align-items: center; gap: clamp(.8rem, 2.7vw, 2rem); margin-left: clamp(1rem, 3vw, 2.5rem); font-size: .72rem; color: var(--muted); }
+    .nav::after { content: ""; position: absolute; left: var(--nav-line-left); bottom: -.85rem; width: var(--nav-line-width); height: 2px; background: var(--accent-gradient); box-shadow: 0 0 12px rgba(73,208,181,.65); transition: left .3s cubic-bezier(.2,.8,.2,1), width .3s ease; }
     .nav a { text-decoration: none; transition: color .2s; }
     .nav a:hover { color: var(--acid); }
+    .nav a[aria-current="location"] { color: var(--paper); }
     .nav-social { display: flex; align-items: center; gap: .45rem; margin-left: auto; }
     .nav-social a { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); border: 1px solid var(--line); transition: color .2s, border-color .2s, background-color .2s; }
-    .nav-social a:hover { color: var(--acid); border-color: var(--acid); background: rgba(196,243,107,.08); }
+    .nav-social a:hover { color: var(--acid); border-color: var(--acid); background: rgba(75,203,186,.16); }
     .nav-social svg { width: 16px; height: 16px; fill: currentColor; }
     .nav-social .mail-icon { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
     .hero { position: relative; min-height: min(800px, calc(100svh - 68px)); display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(240px, .7fr); align-items: center; gap: 3rem; padding-block: clamp(5rem, 12vh, 9rem); }
     .hero-canvas { position: absolute; z-index: 2; top: 0; left: 50%; display: block; width: 100vw; height: 100%; pointer-events: none; transform: translateX(-50%); }
     .hero-copy { max-width: 760px; position: relative; z-index: 1; }
-    .hero h1 { margin: 1.25rem 0 1.2rem; font-size: clamp(4rem, 11vw, 9rem); line-height: .86; letter-spacing: 0; font-weight: 800; }
+    .hero h1 { margin: 1.25rem 0 1.2rem; font-size: clamp(4rem, 11vw, 9rem); line-height: .95; letter-spacing: 0; font-weight: 800; }
     .hero h1 span { display: inline-block; color: var(--acid); }
-    .hero h1 .name-first { color: var(--paper); }
+    .hero h1 .name-first, .hero h1 .name-first .name-letter { color: #c5d4d8; }
+    .hero h1 .name-last { color: var(--acid); }
+    .hero h1 .name-last .name-letter { color: var(--acid); }
     .name-letter { position: relative; display: inline-block; white-space: pre; opacity: 0; transform: translateY(.04em); transition: opacity .12s ease, transform .12s ease; }
     .name-letter.shown { opacity: 1; transform: none; }
     .name-letter.typing::after { content: ""; position: absolute; top: .12em; right: -.055em; width: .055em; height: .72em; background: var(--acid); animation: caret-pulse .9s ease-in-out infinite alternate; }
     .name-caret { width: .055em; height: .72em; margin-left: .12em; vertical-align: -.02em; background: var(--acid); opacity: 0; }
     .name-caret.visible { opacity: 1; animation: caret-pulse .9s ease-in-out infinite alternate; }
     @keyframes caret-pulse { from { opacity: .2; } to { opacity: 1; } }
-    .hero-description { max-width: 570px; margin: 0; color: #c1c5bb; font-size: clamp(1rem, 1.55vw, 1.18rem); }
+    .hero-description { max-width: 570px; margin: 0; color: var(--body); font-size: clamp(1rem, 1.55vw, 1.18rem); }
     .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
     .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: .7rem; padding: .72rem 1rem; border: 1px solid var(--line); text-decoration: none; font-weight: 700; font-size: .84rem; translate: var(--mag-x, 0) var(--mag-y, 0); transition: translate .2s ease, border-color .2s, background .2s; }
     .button:hover { border-color: var(--acid); }
-    .button-primary { color: var(--ink); background: var(--acid); border-color: var(--acid); }
-    .button-primary:hover { background: #d3ff82; }
+    .button-primary { color: var(--button-text); background: var(--accent-gradient); border-color: var(--sea); box-shadow: 0 5px 24px rgba(55,188,159,.16); }
+    .button-primary:hover { filter: brightness(1.12); }
     .hero-aside { align-self: end; padding: 1.3rem 0 0 1.4rem; border-left: 1px solid var(--line); }
     .hero-aside p { margin: .45rem 0; color: var(--muted); font-size: .86rem; }
     .hero-aside strong { color: var(--paper); font-weight: 600; }
     .hero-index { display: block; margin-bottom: 1rem; color: var(--acid); font: .75rem var(--mono); }
     .portrait-panel { width: min(100%, 390px); margin: 0; justify-self: end; }
     .portrait-frame { position: relative; overflow: visible; aspect-ratio: 4 / 5; }
-    .portrait-dots { position: absolute; z-index: 2; inset: 0; pointer-events: none; }
-    .portrait-dots span { position: absolute; width: 4px; aspect-ratio: 1; border-radius: 50%; background: var(--acid); opacity: .58; box-shadow: 0 0 9px rgba(196,243,107,.55); animation: satellite-drift 2.6s ease-in-out infinite alternate; }
-    .portrait-dots span:nth-child(1) { left: -3%; top: 20%; animation-delay: -.4s; }
-    .portrait-dots span:nth-child(2) { left: -1%; top: 43%; animation-delay: -1.3s; }
-    .portrait-dots span:nth-child(3) { left: -4%; top: 68%; animation-delay: -.9s; }
-    .portrait-dots span:nth-child(4) { left: 7%; top: 8%; width: 3px; animation-delay: -1.8s; }
-    .portrait-dots span:nth-child(5) { right: -3%; top: 27%; animation-delay: -1.1s; }
-    .portrait-dots span:nth-child(6) { right: -4%; top: 52%; animation-delay: -.2s; }
-    .portrait-dots span:nth-child(7) { right: -2%; top: 76%; width: 3px; animation-delay: -1.6s; }
-    .portrait-dots span:nth-child(8) { right: 10%; top: 91%; animation-delay: -.7s; }
-    @keyframes satellite-drift { to { transform: translate(3px, -7px) scale(1.45); opacity: .95; } }
     @media (prefers-reduced-motion: reduce) {
       .name-caret { opacity: 1; animation: none; }
-      .portrait-dots span { animation: none; opacity: .75; }
+      .project-card-clone { display: none !important; }
     }
 
     .section { padding-block: clamp(4.5rem, 9vw, 8rem); border-top: 1px solid var(--line); }
@@ -112,7 +127,7 @@
     .section-index { color: var(--acid); }
     .section-heading h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.08; letter-spacing: 0; }
     .about-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 8vw, 8rem); }
-    .about-copy { max-width: 650px; color: #c1c5bb; font-size: 1.02rem; }
+    .about-copy { max-width: 650px; color: var(--body); font-size: 1.02rem; }
     .about-copy p:first-child { color: var(--paper); font-size: clamp(1.2rem, 2vw, 1.55rem); line-height: 1.5; }
     .about-copy p { margin: 0 0 1rem; }
     .facts { margin: 0; border-top: 1px solid var(--line); }
@@ -120,22 +135,105 @@
     .fact dt { color: var(--muted); font: .72rem var(--mono); text-transform: uppercase; }
     .fact dd { margin: 0; font-size: .9rem; }
 
-    .project-list { border-top: 1px solid var(--line); }
-    .project { --pointer-x: 50%; --pointer-y: 50%; display: grid; grid-template-columns: 74px minmax(0, 1fr) minmax(150px, .45fr); gap: 1.3rem; align-items: start; padding: 1.55rem 0; border-bottom: 1px solid var(--line); background: transparent; transition: padding .2s, border-color .2s, background-color .35s ease, background-image .35s ease, box-shadow .35s ease; }
-    .project:hover, .project:focus-within { padding-inline: .75rem; background-color: rgba(196,243,107,.075); background-image: radial-gradient(ellipse 480px 240px at var(--pointer-x) var(--pointer-y), rgba(196,243,107,.17), transparent 100%), linear-gradient(90deg, transparent 0%, rgba(196,243,107,.07) 8%, rgba(196,243,107,.07) 92%, transparent 100%); box-shadow: 0 0 34px rgba(196,243,107,.09); }
-    .project-number { color: var(--acid); font: .75rem var(--mono); padding-top: .38rem; }
-    .project h3 { margin: 0 0 .45rem; font-size: clamp(1.2rem, 2.3vw, 1.65rem); letter-spacing: 0; }
-    .project p { max-width: 600px; margin: 0; color: var(--muted); font-size: .9rem; }
-    .project-status { justify-self: end; color: var(--muted); font: .68rem var(--mono); text-align: right; text-transform: uppercase; }
-    .project-status::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 .5rem .1rem 0; border-radius: 50%; background: var(--acid); }
-    .tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .9rem; }
-    .tag { padding: .2rem .48rem; border: 1px solid var(--line); color: #c6cbbf; font-size: .66rem; }
-    .project-edit-note { margin: 1rem 0 0; color: var(--muted); font: .7rem var(--mono); }
+    .project-filters { display: flex; flex-wrap: wrap; gap: .55rem; margin: 0 0 1rem; }
+    .project-filter { padding: .48rem .75rem; border: 1px solid var(--line); color: var(--muted); background: transparent; font: .68rem var(--mono); cursor: pointer; transition: color .2s, border-color .2s, background .2s; }
+    .project-filter:hover, .project-filter[aria-pressed="true"] { color: var(--paper); border-color: var(--acid); background: var(--accent-soft); }
+    .section-heading-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+    .carousel-controls { display: flex; align-items: center; gap: .65rem; flex: 0 0 auto; }
+    .carousel-counter { color: var(--muted); font: .7rem var(--mono); letter-spacing: .08em; }
+    .carousel-counter strong { color: var(--acid); font-weight: 500; }
+    .carousel-btn { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--line); color: var(--paper); background: var(--panel); font: 1rem var(--mono); cursor: pointer; transition: border-color .2s, color .2s, background .2s, opacity .2s; }
+    .carousel-btn:hover:not(:disabled) { border-color: var(--acid); color: var(--acid); background: var(--accent-soft); }
+    .carousel-btn:disabled { opacity: .35; cursor: default; }
+    .project-track { display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding: 0 0 .6rem; user-select: none; }
+    .project-track.auto-looping { scroll-snap-type: none; scroll-behavior: auto; }
+    .project-track::-webkit-scrollbar { display: none; }
+    .project-track.dragging { scroll-snap-type: none; scroll-behavior: auto; }
+    .project-card { --pointer-x: 50%; --pointer-y: 50%; flex: 0 0 min(86vw, 520px); scroll-snap-align: center; border: 1px solid var(--card-border); border-radius: 4px; background-color: rgba(13,35,44,.82); background-image: radial-gradient(circle 380px at var(--pointer-x) var(--pointer-y), var(--project-spotlight), transparent 100%); display: flex; flex-direction: column; transition: opacity .55s ease, border-color .3s ease, transform .55s ease, box-shadow .3s ease; }
+    .project-track .project-card:not(.is-current) { opacity: .3 !important; transform: scale(.975); }
+    .project-track .project-card.is-current { opacity: 1 !important; transform: scale(1); }
+    .project-card[hidden] { display: none; }
+    .project-card:hover, .project-card:focus-within { border-color: var(--card-border-hover); box-shadow: 0 14px 36px -12px rgba(0,0,0,.6), 0 0 28px rgba(58,175,187,.08); }
+    .card-preview { position: relative; height: 225px; flex: 0 0 225px; border-bottom: 1px solid var(--line); background: radial-gradient(circle at 80% 20%, rgba(58,175,187,.16), transparent 60%), linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px), #0d1b23; background-size: auto, 24px 24px, 24px 24px; display: flex; align-items: center; justify-content: center; padding: 1.25rem; overflow: hidden; }
+    .card-preview svg { width: 100%; max-width: 350px; height: 125px; stroke: var(--acid); fill: none; stroke-width: 1.5; opacity: .85; transition: transform .35s ease, opacity .35s ease; }
+    .card-preview svg.circuit-graphic { width: auto; max-width: 100%; height: 140px; }
+    .project-card:hover .card-preview svg { transform: scale(1.04); opacity: 1; }
+    .project-card:hover .card-preview canvas.engine-i4 { opacity: 1; }
+    .graphic-marker { opacity: 0; transition: opacity .2s ease; }
+    .project-card.is-animating .graphic-marker { opacity: 1; }
+    .circuit-halo { stroke: rgba(58,175,187,.3); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; filter: blur(2px); }
+    .circuit-route { stroke: var(--paper); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 3px rgba(114,211,164,.5)); }
+    .card-preview canvas.engine-i4 { display: block; width: min(100%, 470px); height: auto; aspect-ratio: 520 / 250; }
+    .card-preview:has(canvas.cashflow-canvas) { height: 320px; flex-basis: 320px; padding: .65rem 1rem; background: linear-gradient(rgba(191,205,229,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(191,205,229,.025) 1px, transparent 1px), #0b1017; background-size: 28px 28px, 28px 28px, auto; }
+    .card-preview canvas.cashflow-canvas { display: block; width: min(100%, 680px); height: 100%; aspect-ratio: 640 / 320; cursor: crosshair; }
+    .project-card:hover .card-preview canvas.cashflow-canvas { filter: none; }
+    .engine-diagnostics { margin: 0 0 1rem; }
+    .engine-fault-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .4rem; }
+    .engine-fault-type { min-width: 0; padding: .45rem .35rem; border: 1px solid var(--line); color: var(--muted); background: rgba(8,20,29,.68); font: .58rem/1.25 var(--mono); transition: color .6s, border-color .6s, background .6s, box-shadow .6s; }
+    .engine-fault-type span { display: block; margin-top: .18rem; color: inherit; font-size: .52rem; }
+    .engine-fault-type[aria-current="true"] { color: var(--paper); border-color: var(--sea); background: rgba(36,112,113,.22); box-shadow: 0 0 18px color-mix(in srgb, var(--sea) 25%, transparent); }
+    .engine-fault-type[data-fault-class="1"][aria-current="true"] { border-color: #ff9b50; background: rgba(194,112,54,.16); box-shadow: 0 0 18px rgba(255,155,80,.18); }
+    .engine-fault-type[data-fault-class="2"][aria-current="true"] { border-color: #ff5b60; background: rgba(194,58,54,.16); box-shadow: 0 0 18px rgba(255,74,78,.2); }
+    .engine-fault-type[data-fault-class="3"][aria-current="true"] { border-color: #e4cf5a; background: rgba(173,150,48,.16); box-shadow: 0 0 18px rgba(240,211,74,.2); }
+    .engine-diagnostic-note { margin: .45rem 0 0; color: var(--muted); font: .56rem/1.5 var(--mono); }
+    @media (max-width: 540px) { .engine-fault-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .card-top-meta { position: absolute; inset: .85rem 1rem auto; display: flex; justify-content: space-between; align-items: center; gap: .5rem; pointer-events: none; }
+    .project-card:has(canvas.engine-i4) .card-top-meta { display: none; }
+    .project-number { color: var(--acid); font: .68rem var(--mono); }
+    .project-status { color: var(--muted); font: .6rem var(--mono); text-transform: uppercase; background: rgba(9,19,31,.82); padding: .2rem .45rem; border: 1px solid var(--line); }
+    .card-body { min-height: 300px; padding: 1.35rem 1.4rem 1.25rem; display: flex; flex-direction: column; flex: 1; }
+    .card-body h3 { margin: 0 0 .55rem; font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.25; }
+    .card-body > p { margin: 0 0 1rem; color: var(--muted); font-size: .84rem; }
+    .card-highlights { margin: auto 0 1rem; padding: .75rem .9rem; border-left: 2px solid var(--sea); background: rgba(9,19,31,.58); font-size: .78rem; color: var(--body); }
+    .card-highlights strong { display: block; margin-bottom: .2rem; color: var(--acid); font: .65rem var(--mono); letter-spacing: .05em; text-transform: uppercase; }
+    .tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: auto; }
+    .tag { padding: .22rem .52rem; border: 1px solid var(--line); color: var(--body); font-size: .64rem; background: rgba(9,19,31,.4); }
+    .carousel-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+    .carousel-dots { display: flex; gap: .5rem; align-items: center; }
+    .carousel-dot { width: 28px; height: 4px; border: 0; padding: 0; background: var(--line); cursor: pointer; transition: background-color .25s ease, width .25s ease; }
+    .carousel-dot.active { width: 48px; background: var(--acid); }
+    .project-edit-note { max-width: 58ch; margin: .85rem 0 0 auto; color: var(--muted); font: .68rem/1.65 var(--mono); text-align: right; white-space: normal; }
 
-    .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem; border-top: 1px solid var(--line); }
-    .skill-row { display: grid; grid-template-columns: minmax(115px, .5fr) 1fr; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid var(--line); }
-    .skill-row h3 { margin: .1rem 0 0; font-size: .85rem; }
-    .skill-row p { margin: 0; color: var(--muted); font-size: .84rem; }
+    .project-live-label { display: inline-flex; align-items: center; gap: .55rem; color: var(--muted); font: .62rem var(--mono); letter-spacing: .08em; white-space: nowrap; }
+    .project-live-label i { width: 7px; height: 7px; border-radius: 50%; background: var(--sea); box-shadow: 0 0 12px var(--sea); animation: holo-signal 1.8s ease-in-out infinite; }
+    .project-track[hidden] { display: none !important; }
+    .project-explorer { display: grid; grid-template-columns: minmax(210px, .72fr) minmax(0, 1.8fr); align-items: stretch; gap: 1rem; }
+    .project-index { display: flex; flex-direction: column; gap: .55rem; }
+    .project-entry { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); align-items: center; gap: .7rem; min-height: 76px; padding: .8rem .85rem; overflow: hidden; border: 1px solid var(--line); border-radius: 3px; color: var(--body); background: linear-gradient(115deg, rgba(16,38,48,.9), rgba(9,21,31,.72)); text-align: left; cursor: pointer; transition: border-color .25s, background .25s, transform .25s, box-shadow .25s, color .25s; }
+    .project-entry::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 2px; background: var(--sea); opacity: 0; transform: scaleY(.35); transition: opacity .25s, transform .25s; }
+    .project-entry:hover, .project-entry[aria-selected="true"] { border-color: var(--card-border-hover); color: var(--paper); background: linear-gradient(115deg, rgba(24,67,75,.84), rgba(10,27,38,.92)); box-shadow: inset 0 0 24px rgba(58,175,187,.08), 0 8px 24px rgba(0,0,0,.2); transform: translateX(3px); }
+    .project-entry[aria-selected="true"]::after { opacity: 1; transform: scaleY(1); }
+    .project-entry-number { color: var(--sea); font: .68rem var(--mono); }
+    .project-entry-copy { display: grid; gap: .3rem; min-width: 0; }
+    .project-entry-title { font-size: .82rem; font-weight: 600; line-height: 1.3; }
+    .project-entry-type { color: var(--muted); font: .56rem var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+    .project-stage { --pointer-x: 50%; --pointer-y: 50%; position: relative; isolation: isolate; min-width: 0; min-height: 540px; overflow: hidden; border: 1px solid rgba(79,194,190,.35); border-radius: 4px; background: radial-gradient(ellipse at 52% 28%, rgba(44,172,177,.17), transparent 56%), linear-gradient(rgba(83,205,202,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(83,205,202,.055) 1px, transparent 1px), linear-gradient(145deg, rgba(10,27,38,.94), rgba(7,16,26,.97)); background-size: auto, 28px 28px, 28px 28px, auto; box-shadow: inset 0 0 50px rgba(25,142,151,.1), 0 0 38px rgba(49,184,181,.08); }
+    .project-stage::before { content: ""; position: absolute; z-index: 2; inset: 0; pointer-events: none; opacity: .28; background: repeating-linear-gradient(to bottom, transparent 0 4px, rgba(117,241,226,.11) 5px, transparent 6px); mix-blend-mode: screen; animation: holo-scan 8s linear infinite; }
+    .project-stage::after { content: ""; position: absolute; z-index: 3; top: .8rem; right: .8rem; width: 11px; height: 11px; border-top: 1px solid rgba(157,234,224,.56); border-right: 1px solid rgba(157,234,224,.56); pointer-events: none; }
+    .project-stage > .project-card { position: relative; z-index: 1; width: 100%; max-width: none; min-height: 540px; flex: none; border: 0; border-radius: 0; background: radial-gradient(circle 460px at var(--pointer-x) var(--pointer-y), rgba(66,204,197,.11), transparent 100%); box-shadow: none; opacity: 1; transform: none; animation: holo-materialize .48s cubic-bezier(.2,.75,.25,1) both; }
+    .project-stage .card-preview { height: 260px; flex-basis: 260px; border-bottom-color: rgba(80,198,190,.23); background: radial-gradient(ellipse at 52% 42%, rgba(51,193,185,.14), transparent 63%), linear-gradient(transparent 27px, rgba(83,205,202,.055) 28px), linear-gradient(90deg, transparent 27px, rgba(83,205,202,.055) 28px), transparent; background-size: auto, 28px 28px, 28px 28px, auto; }
+    .project-stage .card-preview svg { width: min(82%, 560px); max-width: 560px; height: 165px; opacity: .94; filter: drop-shadow(0 0 9px rgba(76,218,207,.19)); }
+    .project-stage .card-preview svg.circuit-graphic { width: auto; max-width: min(88%, 620px); height: 190px; }
+    .project-stage .card-preview:has(canvas.cashflow-canvas) { height: 320px; flex-basis: 320px; background-image: linear-gradient(rgba(191,205,229,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(191,205,229,.025) 1px, transparent 1px), linear-gradient(145deg, #0b1017, #0b1119); background-size: 28px 28px, 28px 28px, auto; }
+    .project-stage .card-preview canvas.cashflow-canvas { width: min(100%, 680px); max-width: 680px; }
+    .project-stage .card-preview canvas.engine-i4 { width: min(100%, 470px); max-width: 470px; }
+    .project-stage .card-body { min-height: 275px; padding: 1.45rem clamp(1.2rem, 3vw, 2.3rem) 1.5rem; }
+    .project-stage .card-body h3 { font-size: clamp(1.45rem, 3vw, 2.05rem); }
+    .project-stage .card-body > p { max-width: 66ch; font-size: .9rem; line-height: 1.7; }
+    .project-stage .card-highlights { max-width: 72ch; margin: auto 0 1rem; }
+    .project-stage .graphic-marker { opacity: 1; }
+    .project-index [hidden] { display: none !important; }
+    @keyframes holo-signal { 50% { opacity: .45; box-shadow: 0 0 3px var(--sea); } }
+    @keyframes holo-scan { to { transform: translateY(18px); } }
+    @keyframes holo-materialize { from { opacity: 0; transform: translateY(10px) scale(.99); filter: blur(3px); } to { opacity: 1; transform: none; filter: none; } }
+
+    .skills-layout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .skill-card { --mouse-x: 50%; --mouse-y: 50%; position: relative; min-height: 190px; padding: 1.45rem; overflow: hidden; border: 1px solid var(--card-border); background: radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), var(--skill-spotlight), transparent 78%), var(--skill-fill); backdrop-filter: blur(12px); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+    .skill-card:hover { transform: translateY(-4px); border-color: var(--card-border-hover); box-shadow: 0 12px 35px rgba(0,0,0,.24), 0 0 24px rgba(54,190,172,.12); }
+    .skill-card-label { color: var(--acid); font: .68rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .skill-card h3 { margin: .65rem 0 .8rem; font-size: 1.05rem; }
+    .skill-card p { margin: 0; color: var(--muted); font-size: .86rem; }
+    .skill-card strong { color: var(--paper); font-weight: 600; }
 
     .contact { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; }
     .contact h2 { max-width: 650px; margin: .8rem 0 1rem; font-size: clamp(2.8rem, 7vw, 6rem); line-height: .98; letter-spacing: 0; }
@@ -146,33 +244,68 @@
     footer { padding-block: 1.5rem 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .73rem; }
     .footer-inner { display: flex; justify-content: space-between; gap: 1rem; }
 
-    [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+    .aurora { position: fixed; z-index: 0; inset: -18%; overflow: hidden; pointer-events: none; opacity: var(--aurora-opacity); }
+    .aurora::before, .aurora::after { content: ""; position: absolute; width: 65vw; height: 65vw; min-width: 34rem; min-height: 34rem; border-radius: 50%; filter: blur(75px); will-change: transform; }
+    .aurora::before { top: -18%; left: -12%; background: radial-gradient(circle, var(--aurora-a), var(--aurora-a-soft) 42%, transparent 70%); animation: aurora-drift-a 19s ease-in-out infinite alternate; }
+    .aurora::after { right: -12%; bottom: -24%; background: radial-gradient(circle, var(--aurora-b), var(--aurora-b-soft) 45%, transparent 70%); animation: aurora-drift-b 23s ease-in-out infinite alternate; }
+    @keyframes aurora-drift-a { to { transform: translate(18vw, 12vh) scale(1.12) rotate(12deg); } }
+    @keyframes aurora-drift-b { to { transform: translate(-16vw, -10vh) scale(1.08) rotate(-10deg); } }
+    header, main, footer { position: relative; z-index: 1; }
+    .back-top { position: fixed; z-index: 15; right: var(--gutter); bottom: 1.5rem; width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid var(--card-border-hover); border-radius: 50%; color: var(--button-text); background: var(--accent-gradient); font-size: 1.25rem; font-weight: 700; text-decoration: none; opacity: 0; visibility: hidden; translate: 0 12px; transition: opacity .25s ease, translate .25s ease, visibility .25s, box-shadow .25s ease; }
+    .back-top.visible { opacity: 1; visibility: visible; translate: 0 0; box-shadow: 0 6px 24px rgba(0,0,0,.28); }
+    .back-top:hover { animation: back-top-bounce .45s ease; box-shadow: 0 0 28px rgba(68,207,191,.62); }
+    @keyframes back-top-bounce { 50% { translate: 0 -5px; } }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    .spark { position: fixed; z-index: 40; width: 7px; height: 7px; border-radius: 50%; pointer-events: none; background: var(--sea); box-shadow: 0 0 16px rgba(82,226,201,.92); animation: spark-pop .65s cubic-bezier(.16,.8,.35,1) forwards; }
+    @keyframes spark-pop { to { opacity: 0; transform: translate(var(--spark-x), var(--spark-y)) scale(.15) rotate(160deg); } }
+    .project-status { transition: color .3s ease; }
+    .project-card:hover .project-status { color: var(--paper); }
+
+    [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .65s ease var(--reveal-delay, 0ms), transform .65s ease var(--reveal-delay, 0ms); }
     [data-reveal].visible { opacity: 1; transform: none; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
       [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
       .glow { display: none; }
+      .spark { display: none; }
+      .aurora::before, .aurora::after { animation: none !important; }
+      .back-top:hover { animation: none !important; }
     }
     @media (max-width: 720px) {
       .glow { display: none; }
-      .topbar-inner { gap: .75rem; }
+      .aurora { opacity: .24; }
+      .topbar-inner { gap: .5rem; }
       .nav { gap: .8rem; margin-left: .25rem; font-size: .66rem; }
+      .nav::after { display: none; }
+      .nav-social { gap: .3rem; }
+      .nav-social a { width: 30px; height: 30px; }
       .nav a:nth-child(2), .nav a:nth-child(3) { display: none; }
       .hero { min-height: auto; grid-template-columns: 1fr; gap: 3rem; padding-block: 6rem 4rem; }
       .portrait-panel { justify-self: start; width: min(100%, 390px); }
       .section-heading { grid-template-columns: 55px 1fr; }
       .about-grid, .contact { grid-template-columns: 1fr; }
-      .project { grid-template-columns: 40px 1fr; gap: .6rem; }
-      .project-status { grid-column: 2; justify-self: start; text-align: left; }
+      .project-explorer { grid-template-columns: 1fr; }
+      .project-index { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .project-entry { grid-template-columns: 1fr; align-content: start; gap: .45rem; min-height: 88px; padding: .7rem; }
+      .project-entry-title { font-size: .72rem; }
+      .project-entry-type { font-size: .5rem; }
+      .project-stage, .project-stage > .project-card { min-height: 500px; }
+      .project-stage .card-preview { height: 220px; flex-basis: 220px; }
+      .project-stage .card-preview svg.circuit-graphic { height: 160px; }
+      .project-live-label { font-size: .5rem; }
       .skills-layout { grid-template-columns: 1fr; }
       .contact-links { margin-top: .5rem; }
     }
     @media (max-width: 420px) {
       .wordmark { font-size: .78rem; }
-      .nav { gap: .6rem; margin-left: .15rem; }
+      .nav { gap: .45rem; margin-left: .1rem; }
       .hero h1 { font-size: clamp(3.3rem, 18vw, 5rem); }
       .fact { grid-template-columns: 90px 1fr; }
       .footer-inner { flex-direction: column; }
+      .project-index { grid-template-columns: 1fr; }
+      .project-entry { grid-template-columns: 32px minmax(0, 1fr); min-height: 64px; }
+      .project-stage, .project-stage > .project-card { min-height: 520px; }
     }
     @media (prefers-reduced-motion: reduce) {
       html, body, *, button, a {
@@ -187,9 +320,11 @@
 </head>
 <body>
   <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
   <div class="glow" id="glow" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
   <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+  <a class="back-top" id="back-top" href="#top" aria-label="Back to top"><span aria-hidden="true">↑</span><span class="sr-only">Back to top</span></a>
 
   <header class="topbar">
     <div class="shell topbar-inner">
@@ -200,7 +335,7 @@
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
       </nav>
-      <div class="nav-social" aria-label="Social and email links">
+      <div class="nav-social" aria-label="Social links">
         <a href="https://github.com/raikar-varad" target="_blank" rel="noreferrer" aria-label="GitHub profile" title="GitHub profile">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.08c-3.1.67-3.76-1.32-3.76-1.32-.5-1.29-1.23-1.63-1.23-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15.99 1.7 2.6 1.21 3.23.93.1-.72.39-1.21.71-1.49-2.48-.28-5.09-1.24-5.09-5.53 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.96 0 0 .94-.3 3.06 1.15a10.6 10.6 0 0 1 5.57 0c2.13-1.45 3.06-1.15 3.06-1.15.61 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3.01 0 4.3-2.62 5.24-5.11 5.52.4.35.76 1.03.76 2.08V22c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z"/></svg>
         </a>
@@ -226,7 +361,6 @@
         </div>
         <figure class="portrait-panel" aria-label="Interactive particle portrait">
           <div class="portrait-frame">
-            <div class="portrait-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
           </div>
         </figure>
       </section>
@@ -248,34 +382,80 @@
       </section>
 
       <section class="section" id="projects" aria-labelledby="projects-title">
-        <div class="section-heading" data-reveal><span class="section-index">02 / Projects</span><h2 id="projects-title">Things I’ve been making.</h2></div>
-        <div class="project-list">
-          <article class="project" data-reveal>
-            <span class="project-number">01</span>
-            <div><h3>Expense Tracker</h3><p>A personal finance dashboard for logging expenses, reviewing monthly spending, browsing transactions, tracking budgets, and exporting records. I shaped the visual direction and feature requirements, then tested the prototype.</p><div class="tags"><span class="tag">Personal finance</span><span class="tag">Product direction</span><span class="tag">Prototype testing</span></div></div>
-            <span class="project-status">Prototype · private</span>
+        <div class="section-heading" data-reveal>
+          <span class="section-index">02 / Projects</span>
+          <div class="section-heading-row">
+            <h2 id="projects-title">Things I’ve been making.</h2>
+            <span class="project-live-label"><i aria-hidden="true"></i> PROJECT ARCHIVE / LIVE PREVIEW</span>
+          </div>
+        </div>
+        <div class="project-filters" role="group" aria-label="Filter projects">
+          <button class="project-filter" type="button" data-project-filter="all" aria-pressed="true">All projects</button>
+          <button class="project-filter" type="button" data-project-filter="prototype" aria-pressed="false">Prototypes</button>
+          <button class="project-filter" type="button" data-project-filter="experiment" aria-pressed="false">Experiments</button>
+          <button class="project-filter" type="button" data-project-filter="team" aria-pressed="false">Team projects</button>
+        </div>
+        <div class="project-explorer" id="project-explorer">
+          <div class="project-index" id="project-index" role="tablist" aria-label="Choose a project" aria-orientation="vertical"></div>
+          <div class="project-stage" id="project-stage" role="tabpanel" tabindex="0" aria-live="polite"></div>
+        </div>
+        <div class="project-track" id="project-track" aria-label="Project source cards" hidden>
+          <article class="project-card" data-project-type="prototype" data-reveal>
+            <div class="card-preview">
+              <div class="card-top-meta"><span class="project-number">01 // DASHBOARD</span><span class="project-status">Prototype · private</span></div>
+              <canvas class="cashflow-canvas" role="img" tabindex="0" aria-label="Interactive full-height cash flow visualization with four expense streams. Hover over a category for monthly metrics; click it to simulate a budget anomaly."></canvas>
+            </div>
+            <div class="card-body">
+              <h3>Expense Tracker</h3>
+              <p>A personal finance dashboard for logging expenses, reviewing monthly spending, browsing transactions, tracking budgets, and exporting records.</p>
+              <div class="card-highlights"><strong>My Role &amp; Takeaway</strong>Shaped the visual direction and feature requirements, then tested the prototype.</div>
+              <div class="tags"><span class="tag">Personal finance</span><span class="tag">Product direction</span><span class="tag">Prototype testing</span></div>
+            </div>
           </article>
-          <article class="project" data-reveal>
-            <span class="project-number">02</span>
-            <div><h3>F1 Telemetry Map · Experiment</h3><p>An ambitious prototype exploring a map, time-series data, and moving live telemetry markers. I tested iterations and explored the idea with AI; the prototype became too complex to reliably build and understand, so it remains an unfinished experiment.</p><div class="tags"><span class="tag">Motorsport data</span><span class="tag">Rapid prototyping</span><span class="tag">Unfinished</span></div></div>
-            <span class="project-status">Exploration · paused</span>
+          <article class="project-card" data-project-type="experiment" data-reveal>
+            <div class="card-preview">
+              <div class="card-top-meta"><span class="project-number">02 // TELEMETRY</span><span class="project-status">Exploration · paused</span></div>
+              <!-- Circuit outline adapted from the 2022 F1 CourseLayout Monaco SVG by its Wikimedia Commons author, CC BY-SA 4.0; recolored/cropped. Source: https://commons.wikimedia.org/wiki/File:2022_F1_CourseLayout_Monaco.svg --><svg class="circuit-graphic" viewBox="100 10 590 270" role="img" aria-label="Outline of the Circuit de Monaco"><path class="circuit-halo" vector-effect="non-scaling-stroke" d="M167.2,123.7c8.6-12.2,23.1-29.3,31.9-38s24.9-25.2,39.5-30.7s14.6-7.6,17.9-10.2c3.2-2.6,4.8-4.2,6.7-5.8   s4.9-3.7,9.1,0s19,14.8,23.5,18.5c4.5,3.7,14.7,11.9,22,15.9s37.2,22.1,44.2,26.8c7,4.7,15.6,12.6,20.7,15.7   c12.4,7.5,34.6,13.1,42.6,17.5c8,4.4,32,23.8,38.2,27.7s16.6,7.9,30.1,5.6c15.4-2.6,25.6-16,27.9-30.5c1.2-7.7,0-15.1,0.1-20.1   c0.1-4.9,2.4-15.4,21.7-18.5c19.3-3.2,79.2-10.8,84.6-11.1s10,0.9,11.3,7.2c1.3,6.4-2.7,10.6-5.9,14.3c-3.2,3.6-6,7.2-6.1,11.1   c-0.1,3.8-1.2,13.2-3.7,17.8c-2.5,4.6-3.1,8.5,0,10.2s9.3,1.3,9.1-5.7c-0.2-7,0.8-13.1,0.9-15.1s-0.2-8.8,3-10.9   c3.2-2.1,6.4-3.5,11.3-1.4c4.9,2.1,17.8,8.5,20.9,10.5c3.1,2.1,4.6,3.1,6.8,5.6s1.8,7-0.8,9.1c-2.5,2.1-38.4,32.7-43.2,36.8   c-4.8,4.1-21.5,15-31.1,19.3c-9.5,4.3-28.5,12.6-39.8,14.6c-11.3,2-24.6,2.7-34.9-0.9c-10.3-3.6-59.5-20.3-65.2-22.4   s-35.6-17.7-43.7-24.5c-8.1-6.8-23.8-17.8-25.2-19c-1.4-1.2-4.1-1.4-5.3-0.1c-1.2,1.3-2.9,3.3-3.6,4.2c-0.8,0.9-2.5,1.3-4.2,0   c-1.6-1.3-5.3-4-6.3-5c-1-1.1-1.6-1.8-1.8-4.5s-0.9-4.6-2.2-5.8c-1.3-1.2-83-64.9-84.4-65.9c-1.4-1-4.7-1.8-12.3,0.1   c-7.6,1.9-18.5,6-22.1,8.2c-3.5,2.2-21.2,10.3-33.9,30.7c-1.1,1.8-0.1,7.4,0.2,10.8c0.3,3.4,0.1,9.2-1.9,11.4   c-2,2.2-31.7,44.6-32.7,45.9c-1,1.3-3.6,4-7.6,2c-4-2-8.8-4.4-11-0.2c-2.2,4.2-13.1,25.2-15,31.8s-4.7,19.8-3.2,29.4   c1.5,9.7,3.8,12.5,4.9,15.4c1.1,2.9,1,7.1-0.7,9.8c-1.6,2.6-3.7,4.3-7.7,2.5c-4-1.8-17.3-7.8-27.3-20.1c-2-2.5-2-5.9,2.4-9.1   s6-8,6.3-13.5s2.6-16.1,5.8-23.7c1.6-3.8,9.2-21.1,18-37.8C155,142.7,165.2,126.7,167.2,123.7z"/><path id="monaco-outline" class="circuit-route" vector-effect="non-scaling-stroke" d="M167.2,123.7c8.6-12.2,23.1-29.3,31.9-38s24.9-25.2,39.5-30.7s14.6-7.6,17.9-10.2c3.2-2.6,4.8-4.2,6.7-5.8   s4.9-3.7,9.1,0s19,14.8,23.5,18.5c4.5,3.7,14.7,11.9,22,15.9s37.2,22.1,44.2,26.8c7,4.7,15.6,12.6,20.7,15.7   c12.4,7.5,34.6,13.1,42.6,17.5c8,4.4,32,23.8,38.2,27.7s16.6,7.9,30.1,5.6c15.4-2.6,25.6-16,27.9-30.5c1.2-7.7,0-15.1,0.1-20.1   c0.1-4.9,2.4-15.4,21.7-18.5c19.3-3.2,79.2-10.8,84.6-11.1s10,0.9,11.3,7.2c1.3,6.4-2.7,10.6-5.9,14.3c-3.2,3.6-6,7.2-6.1,11.1   c-0.1,3.8-1.2,13.2-3.7,17.8c-2.5,4.6-3.1,8.5,0,10.2s9.3,1.3,9.1-5.7c-0.2-7,0.8-13.1,0.9-15.1s-0.2-8.8,3-10.9   c3.2-2.1,6.4-3.5,11.3-1.4c4.9,2.1,17.8,8.5,20.9,10.5c3.1,2.1,4.6,3.1,6.8,5.6s1.8,7-0.8,9.1c-2.5,2.1-38.4,32.7-43.2,36.8   c-4.8,4.1-21.5,15-31.1,19.3c-9.5,4.3-28.5,12.6-39.8,14.6c-11.3,2-24.6,2.7-34.9-0.9c-10.3-3.6-59.5-20.3-65.2-22.4   s-35.6-17.7-43.7-24.5c-8.1-6.8-23.8-17.8-25.2-19c-1.4-1.2-4.1-1.4-5.3-0.1c-1.2,1.3-2.9,3.3-3.6,4.2c-0.8,0.9-2.5,1.3-4.2,0   c-1.6-1.3-5.3-4-6.3-5c-1-1.1-1.6-1.8-1.8-4.5s-0.9-4.6-2.2-5.8c-1.3-1.2-83-64.9-84.4-65.9c-1.4-1-4.7-1.8-12.3,0.1   c-7.6,1.9-18.5,6-22.1,8.2c-3.5,2.2-21.2,10.3-33.9,30.7c-1.1,1.8-0.1,7.4,0.2,10.8c0.3,3.4,0.1,9.2-1.9,11.4   c-2,2.2-31.7,44.6-32.7,45.9c-1,1.3-3.6,4-7.6,2c-4-2-8.8-4.4-11-0.2c-2.2,4.2-13.1,25.2-15,31.8s-4.7,19.8-3.2,29.4   c1.5,9.7,3.8,12.5,4.9,15.4c1.1,2.9,1,7.1-0.7,9.8c-1.6,2.6-3.7,4.3-7.7,2.5c-4-1.8-17.3-7.8-27.3-20.1c-2-2.5-2-5.9,2.4-9.1   s6-8,6.3-13.5s2.6-16.1,5.8-23.7c1.6-3.8,9.2-21.1,18-37.8C155,142.7,165.2,126.7,167.2,123.7z"/><g class="graphic-marker"><circle r="6" fill="#f1f6f3"/><circle r="12" fill="none" stroke="#72d3a4" stroke-width="2" opacity=".8"/><animateMotion dur="7s" repeatCount="indefinite" begin="indefinite" rotate="auto"><mpath href="#monaco-outline"/></animateMotion></g></svg>
+            </div>
+            <div class="card-body">
+              <h3>F1 Telemetry Map · Experiment</h3>
+              <p>A prototype exploring a circuit map, time-series data, and moving live telemetry markers.</p>
+              <div class="card-highlights"><strong>Why It’s Paused</strong>The prototype grew too complex to reliably build and understand, so I paused it after testing iterations with AI.</div>
+              <div class="tags"><span class="tag">Motorsport data</span><span class="tag">Rapid prototyping</span><span class="tag">Unfinished</span></div>
+            </div>
           </article>
-          <article class="project" data-reveal>
-            <span class="project-number">03</span>
-            <div><h3>Engine Fault Prediction · Team Project</h3><p>Planned multidisciplinary project exploring whether a quantum neural network can help identify or predict engine faults using EngineFaultDB. The project has not started and my role is still being decided; I may work on the model or its training with guidance from our professor.</p><div class="tags"><span class="tag">Team research</span><span class="tag">Quantum ML · planned</span><span class="tag">EngineFaultDB</span></div></div>
-            <span class="project-status">Planned · not started</span>
+          <article class="project-card" data-project-type="team" data-reveal>
+            <div class="card-preview">
+              <div class="card-top-meta"><span class="project-number">03 // RESEARCH</span><span class="project-status">Planned · upcoming</span></div>
+              <canvas class="engine-graphic engine-i4" role="img" aria-label="Animated inline-four engine cross-section with four reciprocating pistons"></canvas>
+            </div>
+            <div class="card-body">
+              <div class="engine-diagnostics" data-engine-diagnostics>
+                <div class="engine-fault-controls" role="group" aria-label="EngineFaultDB fault class preview">
+                  <span class="engine-fault-type" data-fault-class="0" aria-current="true">TYPE 0 <span>NOMINAL</span></span>
+                  <span class="engine-fault-type" data-fault-class="1" aria-current="false">TYPE 1 <span>RICH</span></span>
+                  <span class="engine-fault-type" data-fault-class="2" aria-current="false">TYPE 2 <span>LEAN</span></span>
+                  <span class="engine-fault-type" data-fault-class="3" aria-current="false">TYPE 3 <span>LOW VOLTAGE</span></span>
+                </div>
+                <p class="engine-diagnostic-note">EngineFaultDB · auto fault sequence · λ / AFR reference points, not class averages.</p>
+              </div>
+              <h3>Engine Fault Prediction · Team Project</h3>
+              <p>Planned multidisciplinary project exploring whether a quantum neural network can help identify or predict engine faults using EngineFaultDB.</p>
+              <div class="card-highlights"><strong>Status &amp; Role</strong>The project has not started; scope and my role are preliminary, with model training as one possible area.</div>
+              <div class="tags"><span class="tag">Team research</span><span class="tag">Quantum ML · planned</span><span class="tag">EngineFaultDB</span></div>
+            </div>
           </article>
         </div>
-        <p class="project-edit-note">AI-generated implementations are identified as such. Team-project scope and role are preliminary.</p>
+        <p class="project-edit-note">Select a project to inspect its live preview · Team project scope and role are preliminary.</p>
       </section>
 
       <section class="section" id="skills" aria-labelledby="skills-title">
         <div class="section-heading" data-reveal><span class="section-index">03 / Toolkit</span><h2 id="skills-title">Tools &amp; coursework.</h2></div>
         <div class="skills-layout" data-reveal>
-          <div class="skill-row"><h3>Languages</h3><p>Python (Data Structures, Algorithms, OOP), JavaScript, C++ (Foundations).</p></div>
-          <div class="skill-row"><h3>Data & ML</h3><p>NumPy, Pandas, Data Analysis & Manipulation basics.</p></div>
-          <div class="skill-row"><h3>Web Development</h3><p>HTML5, CSS3, Modern Responsive Design, DOM Manipulation.</p></div>
-          <div class="skill-row"><h3>Coursework &amp; Tools</h3><p>Core Topics: Data Structures & Algorithms, OS, Discrete Computational Structures.<br> Tools: Git, GitHub, VS Code</p></div>
+          <article class="skill-card"><span class="skill-card-label">01 / Coding</span><h3>Programming languages</h3><p><strong>Python</strong> · Data structures, algorithms, OOP<br><strong>JavaScript</strong> · Foundations<br><strong>C++</strong> · Foundations</p></article>
+          <article class="skill-card"><span class="skill-card-label">02 / Building</span><h3>Web development</h3><p>HTML5, CSS3, responsive design, and DOM manipulation.</p></article>
+          <article class="skill-card"><span class="skill-card-label">03 / Exploring</span><h3>Data &amp; machine learning</h3><p>NumPy, Pandas, and the basics of data analysis and manipulation.</p></article>
+          <article class="skill-card"><span class="skill-card-label">04 / Learning</span><h3>Coursework &amp; tools</h3><p><strong>Coursework</strong> · Data Structures &amp; Algorithms, Operating Systems, Discrete Computational Structures<br><strong>Tools</strong> · Git, GitHub, VS Code</p></article>
         </div>
       </section>
 
@@ -302,13 +482,513 @@
     const glow = document.getElementById('glow');
     const cursorRing = document.getElementById('cursor-ring');
     const cursorDot = document.getElementById('cursor-dot');
+    const backTop = document.getElementById('back-top');
+    const nav = document.querySelector('.nav');
+    const navLinks = Array.from(nav.querySelectorAll('a'));
     const finePointer = window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)');
 
+    const track = document.getElementById('project-track');
+    const cards = Array.from(track.querySelectorAll('.project-card'));
+    const projectIndex = document.getElementById('project-index');
+    const projectStage = document.getElementById('project-stage');
+    const projectFilters = Array.from(document.querySelectorAll('[data-project-filter]'));
+    const projectMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const tabButtons = [];
+    let activeProjectCard = null;
+    let activeGraphicCard = null;
+    let graphicFrame = 0;
+    let graphicGeometry = null;
+    let engineCanvasState = null;
+    let cashflowCanvasState = null;
+    const svgNamespace = 'http://www.w3.org/2000/svg';
+
+    cards.forEach((card, index) => {
+      const title = card.querySelector('h3')?.textContent.trim() || `Project ${index + 1}`;
+      const number = card.querySelector('.project-number')?.textContent.split('//')[0].trim() || String(index + 1).padStart(2, '0');
+      const type = card.querySelector('.project-status')?.textContent.trim() || 'Project';
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'project-entry';
+      button.id = `project-tab-${index + 1}`;
+      button.setAttribute('role', 'tab');
+      button.setAttribute('aria-controls', 'project-stage');
+      button.setAttribute('aria-selected', 'false');
+      button.tabIndex = -1;
+      button.dataset.projectIndex = String(index);
+      const count = document.createElement('span');
+      count.className = 'project-entry-number';
+      count.textContent = number;
+      const copy = document.createElement('span');
+      copy.className = 'project-entry-copy';
+      const name = document.createElement('span');
+      name.className = 'project-entry-title';
+      name.textContent = title;
+      const category = document.createElement('span');
+      category.className = 'project-entry-type';
+      category.textContent = type;
+      copy.append(name, category);
+      button.append(count, copy);
+      button.addEventListener('click', () => selectProject(index));
+      button.addEventListener('keydown', (event) => {
+        const direction = event.key === 'ArrowDown' || event.key === 'ArrowRight' ? 1 : event.key === 'ArrowUp' || event.key === 'ArrowLeft' ? -1 : 0;
+        if (direction) {
+          event.preventDefault();
+          const visibleTabs = tabButtons.filter((tab) => !tab.hidden);
+          const current = visibleTabs.indexOf(button);
+          const next = visibleTabs[(current + direction + visibleTabs.length) % visibleTabs.length];
+          next?.focus();
+          next?.click();
+        } else if (event.key === 'Home' || event.key === 'End') {
+          event.preventDefault();
+          const visibleTabs = tabButtons.filter((tab) => !tab.hidden);
+          const next = event.key === 'Home' ? visibleTabs[0] : visibleTabs[visibleTabs.length - 1];
+          next?.focus();
+          next?.click();
+        }
+      });
+      projectIndex.append(button);
+      tabButtons.push(button);
+      card.removeAttribute('data-reveal');
+      card.classList.add('visible');
+    });
+    track.hidden = true;
+
+    const engineFaults = [
+      { name: 'NOMINAL', lambda: '1.00', afr: '14.7', accent: '#64d3b0' },
+      { name: 'RICH MIXTURE', lambda: '0.82', afr: '12.1', accent: '#ff9b50' },
+      { name: 'LEAN MIXTURE', lambda: '1.24', afr: '18.2', accent: '#ff5b60' },
+      { name: 'LOW VOLTAGE', lambda: 'VARIES', afr: 'VARIES', accent: '#f0d34a' }
+    ];
+    const firingOrder = [0, 2, 3, 1];
+    // A conventional inline-four crank pairs 1+4 and 2+3; ignition still fires 1-3-4-2.
+    const cylinderPhases = [Math.PI, 0, 0, Math.PI];
+    const mixHex = (from, to, amount) => {
+      const a = from.match(/[\da-f]{2}/gi).map((value) => Number.parseInt(value, 16));
+      const b = to.match(/[\da-f]{2}/gi).map((value) => Number.parseInt(value, 16));
+      return `#${a.map((value, index) => Math.round(value + (b[index] - value) * amount).toString(16).padStart(2, '0')).join('')}`;
+    };
+    const cashflowCategories = [
+      { label: 'HOUSING & UTILITIES', color: '#b58be8', amount: 14200, share: 33, interval: 1250, travel: 4400, radius: 2.1, curve: [220, 158, 333, 18] },
+      { label: 'FOOD & DINING', color: '#55d8d0', amount: 11800, share: 27, interval: 560, travel: 2900, radius: 1.8, curve: [232, 161, 350, 121] },
+      { label: 'TECH & INFRA', color: '#f2a43c', amount: 9800, share: 23, interval: 820, travel: 3500, radius: 2, curve: [218, 157, 322, 238] },
+      { label: 'LEISURE', color: '#ff5268', amount: 7000, share: 17, interval: 1050, travel: 4100, radius: 2, curve: [206, 162, 340, 308] }
+    ];
+    const cashflowPoint = (categoryIndex, t) => {
+      const endY = [62, 128, 207, 275][categoryIndex];
+      const startX = 37, startY = 160, endX = 496;
+      const [control1X, control1Y, control2X, control2Y] = cashflowCategories[categoryIndex].curve;
+      const inverse = 1 - t;
+      return {
+        x: inverse ** 3 * startX + 3 * inverse ** 2 * t * control1X + 3 * inverse * t ** 2 * control2X + t ** 3 * endX,
+        y: inverse ** 3 * startY + 3 * inverse ** 2 * t * control1Y + 3 * inverse * t ** 2 * control2Y + t ** 3 * endY
+      };
+    };
+    const drawCashflowCanvas = (state, time = performance.now()) => {
+      const { canvas, context } = state, rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 3), width = Math.round(rect.width * dpr), height = Math.round(rect.height * dpr);
+      if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
+      context.setTransform(dpr * rect.width / 640, 0, 0, dpr * rect.height / 320, 0, 0);
+      context.clearRect(0, 0, 640, 320);
+      const reduced = projectMotionPreference.matches;
+      const spikeProgress = state.spikeAt ? Math.max(0, 1 - (time - state.spikeAt) / 1500) : 0;
+      const spike = spikeProgress * spikeProgress;
+      const motionTime = reduced ? 0 : state.motionTime;
+      context.strokeStyle = 'rgba(150,174,201,.055)'; context.lineWidth = .7;
+      for (let x = 20; x < 640; x += 32) { context.beginPath(); context.moveTo(x, 32); context.lineTo(x, 310); context.stroke(); }
+      for (let y = 40; y < 311; y += 32) { context.beginPath(); context.moveTo(18, y); context.lineTo(632, y); context.stroke(); }
+      const rootY = 160;
+      context.textAlign = 'left'; context.textBaseline = 'alphabetic'; context.fillStyle = '#c4c3d3'; context.font = '8px ui-monospace,monospace'; context.fillText('INFLOW // TRUNK', 25, rootY - 18);
+      context.fillStyle = '#7e8394'; context.font = '7px ui-monospace,monospace'; context.fillText('₹42,800 / MO', 25, rootY + 21);
+      context.fillStyle = '#ded8ec'; context.beginPath(); context.arc(37, rootY, 4, 0, Math.PI * 2); context.fill();
+      if (!reduced) {
+        cashflowCategories.forEach((category, index) => {
+          const packets = state.particles[index];
+          const hovered = state.hoverCategory === index;
+          while (motionTime >= state.nextSpawnAt[index]) {
+            const bornAt = state.nextSpawnAt[index];
+            packets.push({ bornAt, travel: category.travel * (.72 + Math.random() * .62), radius: category.radius * (.78 + Math.random() * .72), speed: .78 + Math.random() * .62 });
+            state.nextSpawnAt[index] = bornAt + category.interval * (hovered ? .48 + Math.random() * .48 : .62 + Math.random() * 1.08);
+          }
+          for (let packet = packets.length - 1; packet >= 0; packet--) {
+            const particle = packets[packet], age = motionTime - particle.bornAt;
+            const progress = age / (particle.travel / (particle.speed * (hovered ? 1.25 : 1) * (state.spikeCategory === index && spike > 0 ? 1 + spike * .3 * Math.sin(time / 47 + particle.bornAt) : 1)));
+            if (progress >= 1) packets.splice(packet, 1);
+          }
+        });
+      }
+      cashflowCategories.forEach((category, index) => {
+        const start = cashflowPoint(index, 0), end = cashflowPoint(index, 1);
+        const hovered = state.hoverCategory === index;
+        const activeFault = state.spikeCategory === index ? spike * (.74 + .26 * Math.abs(Math.sin(motionTime / 95))) : 0;
+        const stroke = activeFault > .01 ? mixHex(category.color, '#ff5b4b', activeFault) : category.color;
+        const [c1x, c1y, c2x, c2y] = category.curve;
+        const drawPipe = () => { context.beginPath(); context.moveTo(start.x, start.y); context.bezierCurveTo(c1x, c1y, c2x, c2y, end.x, end.y); };
+        context.save(); context.lineCap = 'round';
+        drawPipe(); context.strokeStyle = stroke; context.globalAlpha = hovered ? .94 : .62 + activeFault * .25; context.lineWidth = hovered ? 2.35 : activeFault > .05 ? 2.15 : 1.45; context.stroke();
+        context.restore(); context.globalAlpha = 1;
+        for (const particle of state.particles[index]) {
+          const age = Math.max(0, motionTime - particle.bornAt);
+          const travelFactor = particle.speed * (hovered ? 1.25 : 1) * (state.spikeCategory === index && spike > 0 ? 1 + spike * .3 * Math.sin(time / 47 + particle.bornAt) : 1);
+          const progress = age / (particle.travel / travelFactor);
+          if (progress > 1) continue;
+          const point = cashflowPoint(index, Math.max(0, progress));
+          const radius = particle.radius * (hovered ? 1.18 : 1);
+          context.beginPath(); context.arc(point.x, point.y, radius, 0, Math.PI * 2); context.fillStyle = stroke; context.fill();
+          context.beginPath(); context.arc(point.x, point.y, Math.max(.5, radius * .34), 0, Math.PI * 2); context.fillStyle = '#f4f0fa'; context.fill();
+        }
+        const nodeX = 510;
+        context.fillStyle = stroke; context.beginPath(); context.arc(nodeX - 7, end.y, hovered ? 2.9 : 2.2, 0, Math.PI * 2); context.fill();
+        context.textAlign = 'left'; context.fillStyle = hovered ? '#f5f1fc' : '#b5b3c4'; context.font = 'bold 6.8px ui-monospace,monospace'; context.fillText(category.label, nodeX, end.y - 4);
+        if (state.spikeCategory === index && spike > 0) {
+          context.fillStyle = `rgba(255,105,74,${.66 + .34 * spike})`; context.font = 'bold 6.5px ui-monospace,monospace'; context.fillText('SPIKE DETECTED', nodeX, end.y + 11);
+        } else {
+          context.fillStyle = '#818395'; context.font = '7px ui-monospace,monospace'; context.fillText(`₹${category.amount.toLocaleString('en-IN')} / MO`, nodeX, end.y + 11);
+        }
+      });
+      context.fillStyle = '#e5deef'; context.beginPath(); context.arc(37, rootY, 3.2, 0, Math.PI * 2); context.fill();
+      if (state.hoverCategory !== null) {
+        const category = cashflowCategories[state.hoverCategory];
+        const pillWidth = 188, pillX = Math.max(10, Math.min(640 - pillWidth - 10, state.pointerX - pillWidth / 2));
+        const pillY = Math.max(38, Math.min(286, state.pointerY - 38));
+        context.fillStyle = 'rgba(4,15,21,.96)'; context.fillRect(pillX, pillY, pillWidth, 25);
+        context.strokeStyle = 'rgba(175,173,194,.68)'; context.lineWidth = 1; context.strokeRect(pillX, pillY, pillWidth, 25);
+        context.textAlign = 'center'; context.fillStyle = '#eafff8'; context.font = '7px ui-monospace,monospace';
+        context.fillText(`₹${category.amount.toLocaleString('en-IN')} / MO · ${category.share}% OF INFLOW`, pillX + pillWidth / 2, pillY + 16);
+      }
+    };
+    const drawI4Canvas = (state) => {
+      const { canvas, context } = state, rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 3), width = Math.round(rect.width * dpr), height = Math.round(rect.height * dpr);
+      if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
+      context.setTransform(dpr * rect.width / 520, 0, 0, dpr * rect.height / 250, 0, 0); context.clearRect(0, 0, 520, 250);
+      const fault = engineFaults[state.faultClass], xs = [95, 205, 315, 425], crankY = 188, radius = 26, rodLength = 90, now = performance.now();
+      const transition = Math.min(1, Math.max(0, (now - state.faultChangedAt) / 1700));
+      const glowColor = mixHex(engineFaults[state.faultFromClass].accent, fault.accent, transition);
+      const glowAlpha = (state.faultFromClass ? 1 - transition : 0) + (state.faultClass ? transition : 0);
+      const crankPin = (i) => {
+        const angle = state.angle + cylinderPhases[i];
+        // Screen coordinates have Y increasing downward; negating X makes this orbit clockwise.
+        return { x: xs[i] - radius * Math.sin(angle), y: crankY + radius * Math.cos(angle) };
+      };
+      const pistonY = (i) => {
+        const pin = crankPin(i), offset = pin.x - xs[i];
+        return pin.y - Math.sqrt(Math.max(0, rodLength ** 2 - offset ** 2));
+      };
+      const line = (x1,y1,x2,y2,color,w=1) => { context.strokeStyle=color; context.lineWidth=w; context.lineCap='round'; context.beginPath(); context.moveTo(x1,y1); context.lineTo(x2,y2); context.stroke(); };
+      context.save(); context.translate(260, 148); context.scale(.78, .78); context.translate(-260, -148);
+      context.fillStyle='rgba(8,22,30,.62)';context.beginPath();context.roundRect(40,43,440,98,8);context.fill();
+      context.fillStyle='rgba(5,18,26,.97)';context.beginPath();context.roundRect(49,136,422,104,10);context.fill();
+      // Compact upper block meets a single open crankcase; rod slots are only in the shared lip.
+      line(48,43,472,43,'rgba(134,219,209,.58)',1.8);line(40,51,40,128,'rgba(134,219,209,.58)',1.8);line(480,51,480,128,'rgba(134,219,209,.58)',1.8);
+      line(40,51,48,43,'rgba(134,219,209,.58)',1.8);line(472,43,480,51,'rgba(134,219,209,.58)',1.8);line(40,128,49,137,'rgba(134,219,209,.58)',1.8);line(471,137,480,128,'rgba(134,219,209,.58)',1.8);
+      const drawRailWithRodClearance = (left,right,y,color,width) => {
+        let cursor=left;
+        for(const center of xs){const opening=29,gapStart=center-opening,gapEnd=center+opening;if(gapStart>cursor)line(cursor,y,gapStart,y,color,width);cursor=gapEnd;}
+        if(cursor<right)line(cursor,y,right,y,color,width);
+      };
+      drawRailWithRodClearance(49,471,136,'rgba(102,185,179,.62)',1.9);
+      line(49,146,49,230,'rgba(102,185,179,.62)',1.9);line(471,146,471,230,'rgba(102,185,179,.62)',1.9);line(49,146,59,136,'rgba(102,185,179,.62)',1.9);line(461,136,471,146,'rgba(102,185,179,.62)',1.9);line(49,230,59,240,'rgba(102,185,179,.62)',1.9);line(461,240,471,230,'rgba(102,185,179,.62)',1.9);line(59,240,461,240,'rgba(102,185,179,.62)',1.9);
+      line(58,crankY,462,crankY,'rgba(37,98,103,.86)',10);
+      line(58,crankY,462,crankY,'#76d5c8',3.4);
+      for(let i=0;i<4;i++){context.strokeStyle='#b5eee4';context.lineWidth=1.7;context.fillStyle='#173f4a';context.beginPath();context.arc(xs[i],crankY,6,0,Math.PI*2);context.fill();context.stroke();}
+      const hits=[];
+      for(let i=0;i<4;i++){
+        const x=xs[i], active=state.hoverCylinder===i, spark=Math.max(0,(state.sparks[i]-now)/125);
+        const tdc=[0,Math.PI*3,Math.PI,Math.PI*2][i], fourPi=Math.PI*4;
+        const tdcDelta=((state.angle-tdc+Math.PI*2)%fourPi+fourPi)%fourPi-Math.PI*2;
+        const thermal=Math.pow(Math.max(0,1-Math.abs(tdcDelta)/.9),2);
+        context.fillStyle='rgba(14,35,43,.82)';context.fillRect(x-22,49,44,88);
+        if(thermal>0&&state.faultClass!==0){
+          const heat=context.createRadialGradient(x,53,1,x,53,state.faultClass===2?31:25);
+          heat.addColorStop(0,glowColor);heat.addColorStop(.42,glowColor);heat.addColorStop(1,'rgba(255,55,35,0)');
+          context.globalAlpha=Math.min(1,thermal*.86*glowAlpha);context.fillStyle=heat;context.fillRect(x-27,46,54,42);context.globalAlpha=1;
+        }
+        const sleeveColor=active?'#e9fff4':(state.faultClass===3&&spark>0?'#f0d34a':(glowAlpha>0?mixHex('#75dcd2',glowColor,glowAlpha):'rgba(117,220,210,.8)'));
+        context.strokeStyle=sleeveColor;context.lineWidth=active?2.8:2;
+        context.beginPath();context.moveTo(x-23,48);context.lineTo(x-23,137);context.moveTo(x+23,48);context.lineTo(x+23,137);context.moveTo(x-23,48);context.lineTo(x+23,48);context.stroke();
+        line(x-17,52,x-17,132,'rgba(177,235,225,.48)');line(x+17,52,x+17,132,'rgba(177,235,225,.48)');
+        context.fillStyle='#9ac9c6';context.font='7px ui-monospace,monospace';context.textAlign='center';context.fillText(`CYL ${i+1}`,x,39);
+        if(spark>0&&!(state.faultClass===3&&state.sparkSkipped[i])){context.globalAlpha=spark;context.fillStyle=glowColor;context.shadowColor=glowColor;context.shadowBlur=14;context.beginPath();context.arc(x,53,4+4*spark,0,Math.PI*2);context.fill();context.shadowBlur=0;context.globalAlpha=1;line(x-8,53,x+8,53,'#fff2d4',1.2);}
+        const headY=pistonY(i), pin=crankPin(i);
+        // Crank web and slim rod meet only at their shared moving crank pin.
+        line(x,crankY,pin.x,pin.y,'rgba(8,25,31,.96)',9);
+        line(x,crankY,pin.x,pin.y,'#49a7a0',4);
+        line(x,headY,pin.x,pin.y,'rgba(8,25,31,.98)',7);
+        line(x,headY,pin.x,pin.y,'#b8eee5',3.1);
+        context.fillStyle='#4eaaa3';context.strokeStyle=active?'#effff5':'#b8f1e7';context.lineWidth=1.8;context.fillRect(x-19,headY-6,38,12);context.strokeRect(x-19,headY-6,38,12);line(x-17,headY-3,x+17,headY-3,'rgba(235,255,248,.68)',1.3);
+        hits.push({left:x-29,right:x+29,top:47,bottom:175});
+        context.fillStyle='#e8fff7';context.beginPath();context.arc(x,headY,2.2,0,Math.PI*2);context.fill();
+        context.fillStyle='#286e70';context.beginPath();context.arc(pin.x,pin.y,4.4,0,Math.PI*2);context.fill();context.strokeStyle='#d0fff3';context.lineWidth=1.8;context.stroke();
+      }
+      for(let i=0;i<4;i++){context.fillStyle='#286e70';context.beginPath();context.arc(xs[i],crankY,5.2,0,Math.PI*2);context.fill();context.strokeStyle='#d0fff3';context.lineWidth=2;context.stroke();context.fillStyle='#cffff2';context.beginPath();context.arc(xs[i],crankY,1.8,0,Math.PI*2);context.fill();}
+      context.restore();
+      context.textAlign='left';context.fillStyle='rgba(5,15,22,.9)';context.fillRect(10,5,275,29);context.font='9px ui-monospace,monospace';context.fillStyle='#c7ece6';context.fillText(`ENGINEFAULTDB // CLASS ${state.faultClass} [${fault.name}]`,17,16);context.fillStyle='#9ecbc5';context.fillText(`LAMBDA ${fault.lambda}   AFR ${fault.afr}`,17,28);
+      const bad=state.faultClass!==0;context.globalAlpha=bad ? .72+.28*(.5+.5*Math.sin(now/190)) : 1;context.fillStyle=state.faultClass===3?'#f0d34a':bad?'#ff7771':'#64d3b0';context.fillText(bad?'● FAULT DETECTED':'● NOMINAL',381,16);context.globalAlpha=1;context.fillStyle='#89aaa9';context.textAlign='right';context.fillText(`${Math.round(state.rpm)} RPM`,503,28);context.textAlign='left';
+      if(state.hoverCylinder!==null){const i=state.hoverCylinder,tdc=[0,Math.PI*3,Math.PI,Math.PI*2][i],cycle=((state.angle-tdc)%(Math.PI*4)+Math.PI*4)%(Math.PI*4),names=['POWER','EXHAUST','INTAKE','COMPRESSION'],phase=names[Math.min(3,Math.floor(cycle/Math.PI))];context.fillStyle='#e3fff5';context.fillText(`CYL ${i+1} // ${phase}`,292,28);}
+      state.hitboxes=hits.map((box) => ({ left: 260 + (box.left - 260) * .78, right: 260 + (box.right - 260) * .78, top: 148 + (box.top - 148) * .78, bottom: 148 + (box.bottom - 148) * .78 }));
+    };    const stopGraphic = () => {
+      if (graphicFrame) window.cancelAnimationFrame(graphicFrame);
+      graphicFrame = 0;
+      if (graphicGeometry?.isConnected) graphicGeometry.remove();
+      graphicGeometry = null;
+      if (cashflowCanvasState) {
+        const { canvas, intersectionObserver, resizeObserver, onMove, onLeave, onSpike, spikeTimer } = cashflowCanvasState;
+        canvas.removeEventListener('pointermove', onMove);
+        canvas.removeEventListener('pointerleave', onLeave);
+        canvas.removeEventListener('click', onSpike);
+        window.clearTimeout(spikeTimer);
+        intersectionObserver?.disconnect();
+        resizeObserver?.disconnect();
+        cashflowCanvasState = null;
+      }
+      if (engineCanvasState) {
+        const { card, canvas, intersectionObserver, resizeObserver, onEnter, onLeave, onCanvasMove, onCanvasLeave } = engineCanvasState;
+        card.removeEventListener('pointerenter', onEnter);
+        card.removeEventListener('pointerleave', onLeave);
+        canvas.removeEventListener('pointermove', onCanvasMove);
+        canvas.removeEventListener('pointerleave', onCanvasLeave);
+        intersectionObserver?.disconnect();
+        resizeObserver?.disconnect();
+        engineCanvasState = null;
+      }
+      if (activeGraphicCard) {
+        activeGraphicCard.querySelectorAll('.graphic-marker').forEach((marker) => marker.removeAttribute('transform'));
+        activeGraphicCard.classList.remove('is-animating');
+      }
+      activeGraphicCard = null;
+    };
+    const startGraphic = (card) => {
+      stopGraphic();
+      card.classList.add('is-animating');
+      const cashflowCanvas = card.querySelector('.card-preview canvas.cashflow-canvas');
+      if (cashflowCanvas) {
+        activeGraphicCard = card;
+        const state = { card, canvas: cashflowCanvas, context: cashflowCanvas.getContext('2d'), visible: false, hoverCategory: null, pointerX: 0, pointerY: 0, motionTime: 0, lastFrameTime: 0, particles: cashflowCategories.map(() => []), nextSpawnAt: cashflowCategories.map(() => Math.random() * 260), spikeAt: 0, spikeCategory: -1, spikeTimer: 0, intersectionObserver: null, resizeObserver: null };
+        cashflowCanvasState = state;
+        const schedule = () => {
+          if (state.visible && !projectMotionPreference.matches && !graphicFrame) graphicFrame = window.requestAnimationFrame(tick);
+        };
+        const tick = (time) => {
+          graphicFrame = 0;
+          if (cashflowCanvasState !== state || !state.visible || !card.isConnected) return;
+          const elapsed = state.lastFrameTime ? Math.min(64, time - state.lastFrameTime) : 0;
+          state.lastFrameTime = time;
+          state.motionTime += elapsed;
+          drawCashflowCanvas(state, time);
+          if (!projectMotionPreference.matches) graphicFrame = window.requestAnimationFrame(tick);
+        };
+        const pointFromEvent = (event) => {
+          const rect = cashflowCanvas.getBoundingClientRect();
+          return { x: (event.clientX - rect.left) / rect.width * 640, y: (event.clientY - rect.top) / rect.height * 320 };
+        };
+        const hitCategoryAt = (point, allowNearest = false) => {
+          for (let index = 0; index < cashflowCategories.length; index++) {
+            const centerY = [62, 128, 207, 275][index];
+            if (point.x >= 500 && point.x <= 632 && point.y >= centerY - 22 && point.y <= centerY + 22) return index;
+          }
+          let nearest = -1, nearestDistance = Infinity;
+          cashflowCategories.forEach((category, index) => {
+            for (let sample = 3; sample <= 40; sample++) {
+              const conduit = cashflowPoint(index, sample / 40);
+              const distance = Math.hypot(conduit.x - point.x, conduit.y - point.y);
+              if (distance < nearestDistance) { nearestDistance = distance; nearest = index; }
+            }
+          });
+          return nearestDistance <= (allowNearest ? 54 : 30) ? nearest : null;
+        };
+        state.onMove = (event) => {
+          const point = pointFromEvent(event);
+          state.pointerX = point.x; state.pointerY = point.y;
+          state.hoverCategory = hitCategoryAt(point);
+          drawCashflowCanvas(state);
+        };
+        state.onLeave = () => { state.hoverCategory = null; drawCashflowCanvas(state); };
+        state.onSpike = (event) => {
+          const point = pointFromEvent(event);
+          const nearest = hitCategoryAt(point, true);
+          if (nearest === null) return;
+          state.spikeAt = performance.now();
+          state.spikeCategory = nearest;
+          drawCashflowCanvas(state, state.spikeAt);
+          schedule();
+          window.clearTimeout(state.spikeTimer);
+          state.spikeTimer = window.setTimeout(() => {
+            if (cashflowCanvasState !== state) return;
+            state.spikeAt = 0; state.spikeCategory = -1; drawCashflowCanvas(state);
+          }, 1500);
+        };
+        cashflowCanvas.addEventListener('pointermove', state.onMove);
+        cashflowCanvas.addEventListener('pointerleave', state.onLeave);
+        cashflowCanvas.addEventListener('click', state.onSpike);
+        state.intersectionObserver = new IntersectionObserver((entries) => {
+          state.visible = entries.some((entry) => entry.isIntersecting);
+          if (state.visible) { state.lastFrameTime = 0; schedule(); }
+          else { state.lastFrameTime = 0; if (graphicFrame) { window.cancelAnimationFrame(graphicFrame); graphicFrame = 0; } }
+        }, { threshold: .05 });
+        state.intersectionObserver.observe(cashflowCanvas);
+        state.resizeObserver = new ResizeObserver(() => { drawCashflowCanvas(state); schedule(); });
+        state.resizeObserver.observe(cashflowCanvas);
+        drawCashflowCanvas(state);
+        return;
+      }
+      const engineCanvas = card.querySelector('.card-preview canvas.engine-graphic');
+      if (engineCanvas) {
+        activeGraphicCard = card;
+        const controls = card.querySelectorAll('.engine-fault-controls [data-fault-class]');
+        const state = { card, canvas: engineCanvas, context: engineCanvas.getContext('2d'), angle: 0, rpm: 1200, targetRpm: 1200, lastTime: 0, visible: false, sparks: Array(4).fill(0), sparkSkipped: Array(4).fill(false), faultClass: 0, faultFromClass: 0, faultChangedAt: performance.now(), nextFaultAt: performance.now() + 2200, hoverCylinder: null, stutterUntil: 0, intersectionObserver: null, resizeObserver: null };
+        engineCanvasState = state;
+        engineCanvas.dataset.faultClass = '0';
+        controls.forEach((control) => control.setAttribute('aria-current', String(control.dataset.faultClass === '0')));
+        const setFaultClass = (faultClass, time) => {
+          if (faultClass === state.faultClass) return;
+          state.faultFromClass = state.faultClass;
+          state.faultClass = faultClass;
+          state.faultChangedAt = time;
+          engineCanvas.dataset.faultClass = String(faultClass);
+          controls.forEach((control) => control.setAttribute('aria-current', String(Number(control.dataset.faultClass) === faultClass)));
+        };
+        const tick = (time) => {
+          graphicFrame = 0;
+          if (engineCanvasState !== state || !state.visible || !card.isConnected) return;
+          const elapsed = state.lastTime ? Math.min(64, time - state.lastTime) : 0;
+          state.lastTime = time;
+          if (time >= state.nextFaultAt) {
+            const choices = [0, 1, 2, 3].filter((faultClass) => faultClass !== state.faultClass);
+            setFaultClass(choices[Math.floor(Math.random() * choices.length)], time);
+            state.nextFaultAt = time + 5600 + Math.random() * 3200;
+          }
+          const ease = 1 - Math.exp(-elapsed / 420);
+          state.rpm += (state.targetRpm - state.rpm) * ease;
+          const previousAngle = state.angle;
+          const hesitation = state.stutterUntil > time ? .72 : 1;
+          const angleDelta = elapsed * state.rpm * .00135 / 1000 * hesitation;
+          state.angle = (state.angle + angleDelta) % (Math.PI * 4);
+          [0, Math.PI, Math.PI * 2, Math.PI * 3].forEach((tdc, firingIndex) => {
+            const distance = (tdc - previousAngle + Math.PI * 4) % (Math.PI * 4);
+            if (angleDelta > 0 && distance <= angleDelta + .0001) {
+              const cylinder = firingOrder[firingIndex];
+              state.sparkSkipped[cylinder] = state.faultClass === 3 && Math.random() < .42;
+              state.sparks[cylinder] = time + 125;
+              if (state.faultClass === 3 && state.sparkSkipped[cylinder]) state.stutterUntil = time + 110;
+            }
+          });
+          drawI4Canvas(state);
+          if (!projectMotionPreference.matches) graphicFrame = window.requestAnimationFrame(tick);
+        };
+        const schedule = () => {
+          if (state.visible && !graphicFrame) graphicFrame = window.requestAnimationFrame(tick);
+        };
+        state.onEnter = () => { state.targetRpm = 2000; };
+        state.onLeave = () => { state.targetRpm = 1200; };
+        card.addEventListener('pointerenter', state.onEnter);
+        card.addEventListener('pointerleave', state.onLeave);
+        state.onCanvasMove = (event) => {
+          const rect = engineCanvas.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width * 520;
+          const y = (event.clientY - rect.top) / rect.height * 250;
+          const index = state.hitboxes?.findIndex((box) => x >= box.left && x <= box.right && y >= box.top && y <= box.bottom) ?? -1;
+          state.hoverCylinder = index >= 0 ? index : null;
+          engineCanvas.dataset.hoverCylinder = state.hoverCylinder === null ? '' : String(state.hoverCylinder + 1);
+          drawI4Canvas(state);
+        };
+        state.onCanvasLeave = () => { state.hoverCylinder = null; engineCanvas.dataset.hoverCylinder = ''; drawI4Canvas(state); };
+        engineCanvas.addEventListener('pointermove', state.onCanvasMove);
+        engineCanvas.addEventListener('pointerleave', state.onCanvasLeave);
+        state.intersectionObserver = new IntersectionObserver((entries) => {
+          state.visible = entries.some((entry) => entry.isIntersecting);
+          if (state.visible) schedule();
+          else if (graphicFrame) { window.cancelAnimationFrame(graphicFrame); graphicFrame = 0; }
+        }, { threshold: .05 });
+        state.intersectionObserver.observe(engineCanvas);
+        state.resizeObserver = new ResizeObserver(() => {
+          drawI4Canvas(state);
+          schedule();
+        });
+        state.resizeObserver.observe(engineCanvas);
+        if (card.matches(':hover')) state.targetRpm = 2000;
+        if (projectMotionPreference.matches) {
+          state.visible = true;
+          drawI4Canvas(state);
+        } else {
+          // Draw a crisp initial frame while IntersectionObserver reports visibility.
+          drawI4Canvas(state);
+        }
+        return;
+      }
+      const svg = card.querySelector('.card-preview svg');
+      if (projectMotionPreference.matches) return;
+      const marker = svg?.querySelector('.graphic-marker');
+      const motion = marker?.querySelector('animateMotion');
+      if (!svg || !marker || !motion) return;
+      const routeReference = motion.querySelector('mpath')?.getAttribute('href');
+      const routeId = routeReference?.slice(1);
+      const routeSource = routeId ? svg.querySelector(`#${routeId}`) : null;
+      const routeData = motion.getAttribute('path') || routeSource?.getAttribute('d');
+      if (!routeData) return;
+      const geometry = document.createElementNS(svgNamespace, 'path');
+      geometry.setAttribute('d', routeData);
+      geometry.setAttribute('visibility', 'hidden');
+      svg.append(geometry);
+      const length = geometry.getTotalLength();
+      if (!length) { geometry.remove(); return; }
+      graphicGeometry = geometry;
+      activeGraphicCard = card;
+      const duration = Math.max(.5, Number.parseFloat(motion.getAttribute('dur')) || 3) * 1000;
+      const startedAt = performance.now();
+
+      const animate = (time) => {
+        if (activeGraphicCard !== card || !card.isConnected) return;
+        const distance = ((time - startedAt) % duration) / duration * length;
+        const point = geometry.getPointAtLength(distance);
+        marker.setAttribute('transform', `translate(${point.x} ${point.y})`);
+        graphicFrame = window.requestAnimationFrame(animate);
+      };
+      graphicFrame = window.requestAnimationFrame(animate);
+    };
+    const selectProject = (index) => {
+      const card = cards[index];
+      if (!card || card.hidden) return;
+      if (activeProjectCard && activeProjectCard !== card) {
+        stopGraphic();
+        activeProjectCard.classList.remove('is-current', 'is-animating');
+        track.append(activeProjectCard);
+      }
+      projectStage.replaceChildren(card);
+      activeProjectCard = card;
+      card.classList.add('is-current', 'visible');
+      card.classList.remove('is-animating');
+      projectStage.setAttribute('aria-labelledby', tabButtons[index].id);
+      tabButtons.forEach((button, buttonIndex) => {
+        const selected = buttonIndex === index;
+        button.setAttribute('aria-selected', String(selected));
+        button.tabIndex = selected ? 0 : -1;
+      });
+      startGraphic(card);
+    };
+    projectFilters.forEach((filter) => {
+      filter.addEventListener('click', () => {
+        const selectedType = filter.dataset.projectFilter;
+        projectFilters.forEach((button) => button.setAttribute('aria-pressed', String(button === filter)));
+        cards.forEach((card, index) => {
+          const matches = selectedType === 'all' || card.dataset.projectType === selectedType;
+          card.hidden = !matches;
+          tabButtons[index].hidden = !matches;
+        });
+        const firstVisible = cards.findIndex((card) => !card.hidden);
+        if (firstVisible >= 0) selectProject(firstVisible);
+      });
+    });
+    projectMotionPreference.addEventListener('change', () => {
+      if (activeProjectCard) startGraphic(activeProjectCard);
+    });
+    selectProject(0);
     const portraitCanvas = document.getElementById('portrait-canvas');
     const portraitContext = portraitCanvas.getContext('2d');
     const portraitFrame = document.querySelector('.portrait-frame');
     const portraitImageSource = 'Gemini_Generated_Image_t4bvo7t4bvo7t4bv-removebg-previewz11111.png';
-    const portraitState = { particles: [], pointerX: -1000, pointerY: -1000, pointerVX: 0, pointerVY: 0, previousPointerX: -1000, previousPointerY: -1000, previousPointerTime: 0, image: null, width: 0, height: 0, frame: 0, assemblyStartedAt: 0, reducedMotion: false };
+    const portraitState = { particles: [], pointerX: -1000, pointerY: -1000, pointerVX: 0, pointerVY: 0, previousPointerX: -1000, previousPointerY: -1000, previousPointerTime: 0, image: null, width: 0, height: 0, frame: 0, assemblyStartedAt: 0, discombobulating: false, reducedMotion: false };
     let nameTypingFinished = false;
     const drawPortraitSource = (image) => {
       const source = document.createElement('canvas');
@@ -330,7 +1010,9 @@
       for (const particle of particles) {
         let targetX = particle.baseX;
         let targetY = particle.baseY;
-        const progress = portraitState.reducedMotion
+        const progress = portraitState.discombobulating
+          ? 1
+          : portraitState.reducedMotion
           ? 1
           : portraitState.assemblyStartedAt
             ? Math.max(0, Math.min(1, (now - portraitState.assemblyStartedAt - particle.delay) / particle.duration))
@@ -360,8 +1042,8 @@
             particle.vx += directionX * force * 1.15 - directionY * force * .3 + portraitState.pointerVX * force * .025;
             particle.vy += directionY * force * 1.15 + directionX * force * .3 + portraitState.pointerVY * force * .025;
           }
-          particle.vx += (particle.baseX - particle.x) * .02;
-          particle.vy += (particle.baseY - particle.y) * .02;
+          particle.vx += (targetX - particle.x) * .02;
+          particle.vy += (targetY - particle.y) * .02;
           particle.vx *= .89;
           particle.vy *= .89;
           const speed = Math.hypot(particle.vx, particle.vy);
@@ -461,7 +1143,7 @@
               settle: 4 + Math.random() * 14,
               size: scale * (1.1 + brightness / 400),
               alpha: Math.pow(brightness / 255, 1.35),
-              color: '#c4f36b'
+              color: '#7fe5b0'
             });
           }
         }
@@ -518,7 +1200,35 @@
     window.addEventListener('scroll', () => {
       const scrollable = document.documentElement.scrollHeight - window.innerHeight;
       progress.style.width = `${scrollable > 0 ? window.scrollY / scrollable * 100 : 0}%`;
+      backTop.classList.toggle('visible', window.scrollY > 600);
     }, { passive: true });
+    backTop.classList.toggle('visible', window.scrollY > 600);
+
+    const updateNavIndicator = (sectionId) => {
+      const activeLink = navLinks.find((link) => link.hash === `#${sectionId}`);
+      if (!activeLink) return;
+      navLinks.forEach((link) => {
+        if (link === activeLink) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+      const navBounds = nav.getBoundingClientRect();
+      const linkBounds = activeLink.getBoundingClientRect();
+      nav.style.setProperty('--nav-line-left', `${linkBounds.left - navBounds.left}px`);
+      nav.style.setProperty('--nav-line-width', `${linkBounds.width}px`);
+    };
+
+    navLinks.forEach((link) => link.addEventListener('click', () => updateNavIndicator(link.hash.slice(1))));
+    updateNavIndicator(navLinks.some((link) => link.hash === window.location.hash) ? window.location.hash.slice(1) : 'about');
+    window.addEventListener('resize', () => {
+      const activeLink = navLinks.find((link) => link.getAttribute('aria-current') === 'location') || navLinks[0];
+      updateNavIndicator(activeLink.hash.slice(1));
+    }, { passive: true });
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      const visibleSection = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visibleSection) updateNavIndicator(visibleSection.target.id);
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+    document.querySelectorAll('.section[id]').forEach((section) => sectionObserver.observe(section));
 
     window.addEventListener('pointermove', (event) => {
       glow.style.left = `${event.clientX}px`;
@@ -560,11 +1270,11 @@
     }, { passive: true });
 
     document.addEventListener('pointerover', (event) => {
-      if (event.target.closest('a, .project')) cursorRing.classList.add('active');
+      if (event.target.closest('a, .project-card')) cursorRing.classList.add('active');
     });
 
     document.addEventListener('pointerout', (event) => {
-      if (event.target.closest('a, .project')) cursorRing.classList.remove('active');
+      if (event.target.closest('a, .project-card')) cursorRing.classList.remove('active');
     });
 
     if (window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
@@ -582,18 +1292,67 @@
         });
       });
 
-      document.querySelectorAll('.project').forEach((project) => {
-        project.addEventListener('pointermove', (event) => {
-          const bounds = project.getBoundingClientRect();
-          project.style.setProperty('--pointer-x', `${event.clientX - bounds.left}px`);
-          project.style.setProperty('--pointer-y', `${event.clientY - bounds.top}px`);
+      document.querySelectorAll('.project-card').forEach((card) => {
+        card.addEventListener('pointermove', (event) => {
+          const bounds = card.getBoundingClientRect();
+          const x = event.clientX - bounds.left;
+          const y = event.clientY - bounds.top;
+          card.style.setProperty('--pointer-x', `${x}px`);
+          card.style.setProperty('--pointer-y', `${y}px`);
         });
+      });
+
+      document.querySelectorAll('.skill-card').forEach((card) => {
+        card.addEventListener('pointermove', (event) => {
+          const bounds = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${event.clientX - bounds.left}px`);
+          card.style.setProperty('--mouse-y', `${event.clientY - bounds.top}px`);
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        const portraitBounds = portraitFrame.getBoundingClientRect();
+        const clickedPortrait = event.clientX >= portraitBounds.left && event.clientX <= portraitBounds.right
+          && event.clientY >= portraitBounds.top && event.clientY <= portraitBounds.bottom;
+        if (clickedPortrait && !portraitState.reducedMotion && portraitState.assemblyStartedAt) {
+          portraitState.discombobulating = true;
+          const bounds = portraitCanvas.getBoundingClientRect();
+          const clickX = event.clientX - bounds.left;
+          const clickY = event.clientY - bounds.top;
+          portraitState.particles.forEach((particle) => {
+            const dx = particle.x - clickX;
+            const dy = particle.y - clickY;
+            const distance = Math.hypot(dx, dy);
+            const angle = distance > .01 ? Math.atan2(dy, dx) : Math.random() * Math.PI * 2;
+            const force = (5 + Math.random() * 8) * Math.exp(-distance / 360);
+            particle.vx += Math.cos(angle) * force + (Math.random() - .5) * 1.8;
+            particle.vy += Math.sin(angle) * force + (Math.random() - .5) * 1.8;
+          });
+        }
+        if (event.target.closest('a, button, summary')) return;
+        for (let index = 0; index < 8; index += 1) {
+          const spark = document.createElement('span');
+          const angle = Math.PI * 2 * index / 8 + Math.random() * .25;
+          const distance = 18 + Math.random() * 34;
+          spark.className = 'spark';
+          spark.setAttribute('aria-hidden', 'true');
+          spark.style.left = `${event.clientX}px`;
+          spark.style.top = `${event.clientY}px`;
+          spark.style.setProperty('--spark-x', `${Math.cos(angle) * distance}px`);
+          spark.style.setProperty('--spark-y', `${Math.sin(angle) * distance}px`);
+          document.body.append(spark);
+          spark.addEventListener('animationend', () => spark.remove(), { once: true });
+        }
       });
     }
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          if (entry.target.classList.contains('project-card')) {
+            const projectIndex = cards.indexOf(entry.target) + 1;
+            entry.target.style.setProperty('--reveal-delay', `${projectIndex * 90}ms`);
+          }
           entry.target.classList.add('visible');
           observer.unobserve(entry.target);
         }
