@@ -508,7 +508,7 @@
     const portraitContext = portraitCanvas.getContext('2d');
     const portraitFrame = document.querySelector('.portrait-frame');
     const portraitImageSource = 'Gemini_Generated_Image_t4bvo7t4bvo7t4bv-removebg-previewz11111.png';
-    const portraitState = { particles: [], pointerX: -1000, pointerY: -1000, pointerVX: 0, pointerVY: 0, previousPointerX: -1000, previousPointerY: -1000, previousPointerTime: 0, image: null, width: 0, height: 0, frame: 0, assemblyStartedAt: 0, discombobulating: false, reducedMotion: false };
+    const portraitState = { particles: [], pointerX: -1000, pointerY: -1000, pointerVX: 0, pointerVY: 0, previousPointerX: -1000, previousPointerY: -1000, previousPointerTime: 0, image: null, width: 0, height: 0, frame: 0, assemblyStartedAt: 0, hasBursted: false, discombobulating: false, reducedMotion: false };
     let nameTypingFinished = false;
     const drawPortraitSource = (image) => {
       const source = document.createElement('canvas');
@@ -592,7 +592,7 @@
     };
 
     const beginPortraitAssembly = () => {
-      if (!portraitState.particles.length || portraitState.assemblyStartedAt || portraitState.reducedMotion) return;
+      if (!portraitState.particles.length || portraitState.assemblyStartedAt || portraitState.hasBursted || portraitState.reducedMotion) return;
       const caretBounds = document.querySelector('.name-caret').getBoundingClientRect();
       const canvasBounds = portraitCanvas.getBoundingClientRect();
       const originX = caretBounds.left + caretBounds.width / 2 - canvasBounds.left;
@@ -611,6 +611,7 @@
       });
 
       portraitState.assemblyStartedAt = performance.now();
+      portraitState.hasBursted = true;
     };
 
     const loadPortrait = () => {
@@ -671,7 +672,7 @@
         portraitState.particles = particles;
         portraitState.pointerX = -1000;
         portraitState.pointerY = -1000;
-        portraitState.assemblyStartedAt = portraitState.reducedMotion ? performance.now() : 0;
+        portraitState.assemblyStartedAt = portraitState.reducedMotion || portraitState.hasBursted ? performance.now() : 0;
         if (nameTypingFinished) beginPortraitAssembly();
       };
       image.src = portraitImageSource;
@@ -680,7 +681,10 @@
     loadPortrait();
     renderPortrait();
     let portraitResizeTimer;
+    let lastPortraitWidth = window.innerWidth;
     window.addEventListener('resize', () => {
+      if (window.innerWidth === lastPortraitWidth) return;
+      lastPortraitWidth = window.innerWidth;
       window.clearTimeout(portraitResizeTimer);
       portraitResizeTimer = window.setTimeout(loadPortrait, 120);
     }, { passive: true });
