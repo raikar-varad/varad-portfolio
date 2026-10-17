@@ -5,6 +5,7 @@
     const backTop = document.getElementById('back-top');
     const nav = document.querySelector('.nav');
     const navLinks = Array.from(nav.querySelectorAll('a'));
+    const navToggle = document.querySelector('.nav-toggle');
     const finePointer = window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)');
 
     const track = document.getElementById('project-track');
@@ -683,7 +684,7 @@
     let portraitResizeTimer;
     let lastPortraitWidth = window.innerWidth;
     window.addEventListener('resize', () => {
-      if (window.innerWidth === lastPortraitWidth) return;
+      if (Math.abs(window.innerWidth - lastPortraitWidth) < 50) return;
       lastPortraitWidth = window.innerWidth;
       window.clearTimeout(portraitResizeTimer);
       portraitResizeTimer = window.setTimeout(loadPortrait, 120);
@@ -742,6 +743,19 @@
     };
 
     navLinks.forEach((link) => link.addEventListener('click', () => updateNavIndicator(link.hash.slice(1))));
+    const setMobileNav = (isOpen) => {
+      nav.classList.toggle('is-open', isOpen);
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      navToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+    };
+    navToggle.addEventListener('click', () => setMobileNav(navToggle.getAttribute('aria-expanded') !== 'true'));
+    navLinks.forEach((link) => link.addEventListener('click', () => setMobileNav(false)));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
+        setMobileNav(false);
+        navToggle.focus();
+      }
+    });
     updateNavIndicator(navLinks.some((link) => link.hash === window.location.hash) ? window.location.hash.slice(1) : 'about');
     window.addEventListener('resize', () => {
       const activeLink = navLinks.find((link) => link.getAttribute('aria-current') === 'location') || navLinks[0];
